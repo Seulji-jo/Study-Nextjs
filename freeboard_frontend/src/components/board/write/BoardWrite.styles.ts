@@ -9,6 +9,7 @@ export const Main = styled.main`
 
 export const BoardContainer = styled.section`
   width: 65%;
+  max-width: 960px;
   
   padding: 120px 102px;
   background: #FFFFFF;
