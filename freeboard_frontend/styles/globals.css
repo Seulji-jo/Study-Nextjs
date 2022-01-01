@@ -104,3 +104,5 @@ label {
 	url(../assets/font/Open_Sans/OpenSans-VariableFont_wdth\,wght.ttf) format("truetype");
 	unicode-range: U+0041-005A, U+0061-007A, U+0030-0039;
 }
+
+@import './antd.css'
