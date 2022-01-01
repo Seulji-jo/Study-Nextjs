@@ -1,10 +1,14 @@
 import styled from "@emotion/styled";
-import {Iavartar} from './BoardArticle.types'
+import {Iavartar, Itext, Ibutton} from './BoardArticle.types'
 
 export const Main = styled.main`
   padding: 100px 0;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  & > * + * {
+    margin-top: 80px;
+  }
 `
 
 export const BoardContainer = styled.article`
@@ -54,8 +58,66 @@ export const IconWrapper = styled.div`
     margin-left: 30px;
   }
 `
+export const HoverMsg = styled.div`
+  width: 376px;
+  padding: 8px 16px;
+  background-color: #C4C4C4;
+  position: relative;
+  right: 0;
+  line-height: 24px;
+  text-align: right;
+`
 
-
+export const ContentSection = styled.section`
+  padding: 80px 0;
+  & > * + * {
+    margin-top: 40px;
+  }
+`
 export const ContentTitle = styled.h3`
   font-size: 36px;
+`
+export const ContentTxt = styled.div`
+  font-size: 1.6rem;
+`
+export const VideoContainer = styled.div`
+  padding: 80px 0 40px;
+  display: flex;
+  justify-content: center;
+`
+
+export const EvaluationSection = styled.div`
+  display: flex;
+  justify-content: center;
+`
+export const EvaluationBox = styled.div`
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  & > * + * {
+    padding-top: 12px;
+  }
+`
+export const Text = styled.div<Itext>`
+  font-size: ${props => props.fontSize ?? '1.8rem'};
+  color: ${props => props.color ?? '#333'}
+`
+
+export const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  & > * + * {
+    margin-left: 24px;
+  }
+`
+
+export const Button = styled.button<Ibutton>`
+  
+  padding: ${props => props.padding ?? '12px 16px'};
+  font-size: 1.4rem;
+  background-color: ${props => props.bgColor ?? '#333'};
+  color: ${props => props.color ?? '#fff'};
+  border: ${props => props.border ?? 'none'};
+  font-weight: ${props => props.fontWeight ?? 400};
 `

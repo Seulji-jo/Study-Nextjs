@@ -1,11 +1,19 @@
-import {Main, BoardContainer, WriterSection, WriterContainer, AvatarWrapper, WriterName, Date, IconWrapper, ContentTitle} from './BoardArticle.styles';
+import {Main, BoardContainer, WriterSection, WriterContainer, AvatarWrapper, WriterName, Date, IconWrapper, HoverMsg, ContentSection, ContentTitle, ContentTxt, VideoContainer, EvaluationSection, EvaluationBox, Text, ButtonWrapper, Button} from './BoardArticle.styles';
 import LinkIcon from '../../../../assets/img/linkIcon.png'
 import Avatar from '../../../../assets/img/avatar.png';
+import Like from '../../../../assets/img/like.png'
+import Dislike from '../../../../assets/img/dislike.png'
 
 const BoardArticlePresenter = () => {
+  console.log(Like);
+  
   return (
     <Main>
       <BoardContainer>
+        <HoverMsg>
+          <p>서울특별시 영등포구 양산로 200</p>
+          <p>(영등포동5가, 영등포시장역) 영등포 타임스퀘어 2층</p>
+        </HoverMsg>
         <WriterSection>
           <WriterContainer>
             <AvatarWrapper avatar={Avatar.src} />
@@ -14,12 +22,44 @@ const BoardArticlePresenter = () => {
               <Date datetime="2021-02-18">Date : 2021.02.18</Date>
             </div>
           </WriterContainer>
+          
           <IconWrapper>
             <img src={LinkIcon.src} alt='link icon' />
             <img src={LinkIcon.src} alt='link icon' />
           </IconWrapper>
         </WriterSection>
+        <ContentSection>
+          <ContentTitle>
+            게시글 제목입니다.
+          </ContentTitle>
+          <img src="https://dummyimage.com/996x480/f2f2f2/000000" alt="img1" width={'100%'} />
+          <ContentTxt>
+            가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하
+          </ContentTxt>
+          <VideoContainer>
+            {/* <video controls width="250">
+              <source src="/media/cc0-videos/flower.webm" type="video/webm" />
+              <source src="/media/cc0-videos/flower.mp4" type="video/mp4" />
+              Sorry, your browser doesn't support embedded videos.
+            </video> */}
+            <iframe width="486" height="240" src="https://www.youtube.com/embed/7_HuJ6VsRho" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
+          </VideoContainer>
+        </ContentSection>
+        <EvaluationSection>
+          <EvaluationBox>
+            <img src={Like.src} alt="like image" width='20px' height={18} />
+            <Text color='#FFD600'>1920</Text>
+          </EvaluationBox>
+          <EvaluationBox>
+            <img src={Dislike.src} alt="dislike img" width='20px' height={18} />
+            <Text>1920</Text>
+          </EvaluationBox>
+        </EvaluationSection>
       </BoardContainer>
+      <ButtonWrapper>
+        <Button padding='14px 60px' bgColor='#fff' color='#333' border='1px solid #bdbdbd'>목록으로</Button>
+        <Button padding='14px 60px' bgColor='#fff' color='#333' border='1px solid #bdbdbd'>수정하기</Button>
+      </ButtonWrapper>
     </Main>
   )
 }
