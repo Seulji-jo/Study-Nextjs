@@ -1,7 +1,7 @@
 export interface IboardWirteProps {
   handleInput: (e: any) => void;
+  handleCreateBoard: () => Promise<void>;
   inputData: any
-  submitBoard: () => void;
 }
 
 export type IinputContainerProps = {

@@ -2,10 +2,11 @@
 
 import { Main, BoardContainer, ContentTitle, ContentContainer, RowContainer, RowCenterAlign, InputContainer, InputTitle, Input, ImgUploader, UploadImg, ImgInput, TextArea, Button, RadioContainer, Radio } from "./BoardWrite.styles";
 import { IboardWirteProps } from "./BoardWrite.types";
+import DaumPostcode from 'react-daum-postcode';
 
 import Icon from "../../../../assets/img/uploadIcon.png";
 
-const BoardWritePresenter:React.FC<IboardWirteProps> = ({handleInput, inputData, submitBoard}) => {
+const BoardWritePresenter:React.FC<IboardWirteProps> = ({handleInput, handleCreateBoard, inputData}) => {
   return (
     <Main>
       <BoardContainer>
@@ -27,13 +28,14 @@ const BoardWritePresenter:React.FC<IboardWirteProps> = ({handleInput, inputData,
         </InputContainer>
         <InputContainer width={'100%'}>
           <InputTitle>내용</InputTitle>
-          <TextArea placeholder="내용을 작성해주세요." onChange={handleInput} name="content" />
+          <TextArea placeholder="내용을 작성해주세요." onChange={handleInput} name="contents" />
         </InputContainer>
         <InputContainer width={'100%'}>
           <InputTitle>주소</InputTitle>
           <RowContainer>
             <Input placeholder="07250" onChange={handleInput} name='zipCode' readOnly width={'80px'}></Input>
             <Button bgColor={'#333'}>우편번호 검색</Button>
+            <DaumPostcode></DaumPostcode>
           </RowContainer>
           <Input onChange={handleInput} name="address" readOnly />
           <Input onChange={handleInput} name="detailAdd" />
@@ -79,7 +81,7 @@ const BoardWritePresenter:React.FC<IboardWirteProps> = ({handleInput, inputData,
         </InputContainer>
         </ContentContainer>
         <RowCenterAlign>
-          <Button padding='14px 60px' bgColor="#FFD600" color='#333' fontWeight={700} onClick={submitBoard}>
+          <Button padding='14px 60px' bgColor="#FFD600" color='#333' fontWeight={700} onClick={handleCreateBoard}>
             등록하기
           </Button>
         </RowCenterAlign>
