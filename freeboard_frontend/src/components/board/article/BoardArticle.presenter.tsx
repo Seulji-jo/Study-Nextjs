@@ -5,8 +5,6 @@ import Like from '../../../../assets/img/like.png'
 import Dislike from '../../../../assets/img/dislike.png'
 
 const BoardArticlePresenter = () => {
-  console.log(Like);
-  
   return (
     <Main>
       <BoardContainer>
