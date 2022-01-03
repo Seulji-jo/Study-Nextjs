@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import {Iavartar, Itext, Ibutton} from './BoardDetail.types'
+import {Avartar, Text, Button} from './BoardDetail.types'
 
 export const Main = styled.main`
   padding: 100px 0;
@@ -14,8 +14,9 @@ export const Main = styled.main`
 export const BoardContainer = styled.article`
   width: 65%;
   max-width: 960px;
+  padding: 80px 102px;
   
-  padding: 120px 102px;
+  overflow: hidden;
   background: #FFFFFF;
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
 `
@@ -23,6 +24,7 @@ export const BoardContainer = styled.article`
 export const WriterSection = styled.section`
   width: 100%;
   padding-bottom: 20px;
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -35,7 +37,7 @@ export const WriterContainer = styled.div`
     padding-left: 16px;
   }
 `
-export const AvatarWrapper = styled.div<Iavartar>`
+export const AvatarWrapper = styled.div<Avartar>`
   width: 46px;
   height: 46px;
   border-radius: 50%;
@@ -55,23 +57,45 @@ export const IconWrapper = styled.div`
   display: flex;
   align-items: center;
   & > * + * {
-    margin-left: 30px;
+    margin-left: 30px !important;
   }
 `
+export const IconContainer = styled.div`
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
 export const HoverMsg = styled.div`
-  width: 376px;
   padding: 8px 16px;
   background-color: #C4C4C4;
-  position: relative;
-  right: 0;
+  position: absolute;
+  bottom: 70px;
+  right: 15px;
   line-height: 24px;
   text-align: right;
+  color: #fff;
+  & > * {
+    width: 100%;
+  }
+  &::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 0;
+    position: absolute;
+    bottom: -8px;
+    right: 0;
+    border-top: 8px solid #C4C4C4;
+    border-left: 12px solid transparent;
+  }
 `
 
 export const ContentSection = styled.section`
   padding: 80px 0;
   & > * + * {
-    margin-top: 40px;
+    margin-top: 40px !important;
   }
 `
 export const ContentTitle = styled.h3`
@@ -99,7 +123,7 @@ export const EvaluationBox = styled.div`
     padding-top: 12px;
   }
 `
-export const Text = styled.div<Itext>`
+export const TextContainer = styled.div<Text>`
   font-size: ${props => props.fontSize ?? '1.8rem'};
   color: ${props => props.color ?? '#333'}
 `
@@ -112,7 +136,7 @@ export const ButtonWrapper = styled.div`
   }
 `
 
-export const Button = styled.button<Ibutton>`
+export const Button = styled.button<Button>`
   
   padding: ${props => props.padding ?? '12px 16px'};
   font-size: 1.4rem;

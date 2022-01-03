@@ -1,16 +1,19 @@
-export interface IboardArticleProps {}
+export interface IboardArticleProps {
+  isHover: boolean;
+  handleHover: () => void;
+}
 
-export type Iavartar = {
-  avatar: string
+export type Avartar = {
+  avatar?: string
 }
-export type Itext = {
-  fontSize: string;
-  color: string;
+export type Text = {
+  fontSize?: string;
+  color?: string;
 }
-export type Ibutton = {
-  padding: string;
-  bgColor: string;
-  color: string;
-  border: string;
-  fontWeight: number;
+export type Button = {
+  padding?: string;
+  bgColor?: string;
+  color?: string;
+  border?: string;
+  fontWeight?: number;
 }
