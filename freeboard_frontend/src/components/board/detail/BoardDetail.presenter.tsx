@@ -1,4 +1,4 @@
-import {Main, BoardContainer, WriterSection, WriterContainer, AvatarWrapper, WriterName, Date, IconWrapper, HoverMsg, ContentSection, ContentTitle, ContentTxt, VideoContainer, EvaluationSection, EvaluationBox, Text, ButtonWrapper, Button} from './BoardArticle.styles';
+import {Main, BoardContainer, WriterSection, WriterContainer, AvatarWrapper, WriterName, Date, IconWrapper, HoverMsg, ContentSection, ContentTitle, ContentTxt, VideoContainer, EvaluationSection, EvaluationBox, Text, ButtonWrapper, Button} from './BoardDetail.styles';
 import LinkIcon from '../../../../assets/img/linkIcon.png'
 import Avatar from '../../../../assets/img/avatar.png';
 import Like from '../../../../assets/img/like.png'

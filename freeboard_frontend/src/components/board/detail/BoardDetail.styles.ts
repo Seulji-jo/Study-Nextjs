@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import {Iavartar, Itext, Ibutton} from './BoardArticle.types'
+import {Iavartar, Itext, Ibutton} from './BoardDetail.types'
 
 export const Main = styled.main`
   padding: 100px 0;

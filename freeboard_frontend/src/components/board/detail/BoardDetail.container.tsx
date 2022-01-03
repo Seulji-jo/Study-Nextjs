@@ -1,8 +1,8 @@
 import { useQuery } from '@apollo/client';
 import { useRouter } from 'next/router';
 import { Query, QueryFetchBoardArgs } from '../../../commons/types/generated/types';
-import BoardArticlePresenter from "./BoardArticle.presenter";
-import { FETCH_BOARD } from './BoardArticle.queries';
+import BoardArticlePresenter from "./BoardDetail.presenter";
+import { FETCH_BOARD } from './BoardDetail.queries';
 
 const BoardArticleContainer = () => {
   const router = useRouter();

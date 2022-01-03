@@ -1,4 +1,4 @@
-import BoardArticleContainer from "../../../src/components/board/article/BoardArticle.container"
+import BoardArticleContainer from "../../../src/components/board/detail/BoardDetail.container"
 
 const BoardArticlePage = () => {
   return <BoardArticleContainer />
