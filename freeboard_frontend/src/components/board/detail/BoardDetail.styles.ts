@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import {Avartar, Text, Button} from './BoardDetail.types'
+import {Avartar, Text, ButtonProps} from './BoardDetail.types'
 
 export const Main = styled.main`
   padding: 100px 0;
@@ -136,7 +136,7 @@ export const ButtonWrapper = styled.div`
   }
 `
 
-export const Button = styled.button<Button>`
+export const Button = styled.button<ButtonProps>`
   
   padding: ${props => props.padding ?? '12px 16px'};
   font-size: 1.4rem;

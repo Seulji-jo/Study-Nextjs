@@ -10,7 +10,7 @@ export type Text = {
   fontSize?: string;
   color?: string;
 }
-export type Button = {
+export type ButtonProps = {
   padding?: string;
   bgColor?: string;
   color?: string;

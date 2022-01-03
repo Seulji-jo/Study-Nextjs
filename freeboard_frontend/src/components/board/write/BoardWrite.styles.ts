@@ -1,16 +1,60 @@
 import styled from '@emotion/styled'
 import { IinputContainerProps, IinputProps, Ibutton } from "./BoardWrite.types";
+import DaumPostcode from 'react-daum-postcode';
 
 export const Main = styled.main`
-  padding: 100px 0;
   display: flex;
   justify-content: center;
+  position: relative;
+`
+export const Dim = styled.div`
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  background-color: rgba(0,0,0,0.5);
+  z-index: 100;
+`
+export const Modal = styled.div`
+  width: 525px;
+  height: 500px;
+  display: flex;
+  align-items: start;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  z-index: 999;
+`
+export const Close = styled.button`
+  width: 40px;
+  height: 40px;
+
+  margin-left: 5px;
+  background-color: #222;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &:before, &:after {
+    display: block;
+    content:'';
+    width: 1px;
+    height: 35px;
+    background-color: #fff;
+  }
+  &:before { transform: rotate(45deg); }
+  &:after { transform: rotate(-45deg); }
 `
 
 export const BoardContainer = styled.section`
   width: 65%;
   max-width: 960px;
-  
+  margin: 100px 0;
   padding: 120px 102px;
   background: #FFFFFF;
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);

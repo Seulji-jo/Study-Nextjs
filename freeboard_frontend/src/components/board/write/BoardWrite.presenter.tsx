@@ -1,6 +1,6 @@
 // presenter는 ui만 그려줌
 
-import { Main, BoardContainer, ContentTitle, ContentContainer, RowContainer, RowCenterAlign, InputContainer, InputTitle, Input, ImgUploader, UploadImg, ImgInput, TextArea, Button, RadioContainer, Radio } from "./BoardWrite.styles";
+import { Main, Dim, Close, Modal, BoardContainer, ContentTitle, ContentContainer, RowContainer, RowCenterAlign, InputContainer, InputTitle, Input, ImgUploader, UploadImg, ImgInput, TextArea, Button, RadioContainer, Radio } from "./BoardWrite.styles";
 import { IboardWirteProps } from "./BoardWrite.types";
 import DaumPostcode from 'react-daum-postcode';
 
@@ -9,6 +9,12 @@ import Icon from "../../../../assets/img/uploadIcon.png";
 const BoardWritePresenter:React.FC<IboardWirteProps> = ({handleInput, handleCreateBoard, inputData}) => {
   return (
     <Main>
+      <Dim>
+        <Modal>
+          <DaumPostcode style={{width: '480px', height: '100%'}}></DaumPostcode>
+          <Close></Close>
+        </Modal>
+      </Dim>
       <BoardContainer>
         <ContentTitle>게시물 등록</ContentTitle>
         <ContentContainer>
@@ -35,7 +41,7 @@ const BoardWritePresenter:React.FC<IboardWirteProps> = ({handleInput, handleCrea
           <RowContainer>
             <Input placeholder="07250" onChange={handleInput} name='zipCode' readOnly width={'80px'}></Input>
             <Button bgColor={'#333'}>우편번호 검색</Button>
-            <DaumPostcode></DaumPostcode>
+            
           </RowContainer>
           <Input onChange={handleInput} name="address" readOnly />
           <Input onChange={handleInput} name="detailAdd" />
