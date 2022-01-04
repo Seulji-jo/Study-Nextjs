@@ -21,6 +21,12 @@ const BoardWriteContainer = () => {
     mainSetting: 'youtube'
   });
   const [isModal, setIsModal] = useState(false);
+  const [requirements, setRequirements] = useState({
+    writer: true,
+    password: true,
+    title: true,
+    contents: true
+  });
 
   const router = useRouter();
   const [createBoard] = useMutation<Mutation, MutationCreateBoardArgs>(CREATE_BOARD)
@@ -79,8 +85,31 @@ const BoardWriteContainer = () => {
     setInput({...input, zipcode: data.zonecode, address: fullAddress })
   }
 
+  const checkRequirements= () => {
+    const { writer, password, title, contents} = input
+    if (writer && password && title && contents) {
+      handleCreateBoard();
+    } else {
+      setRequirements({
+        writer: Boolean(writer),
+        password: Boolean(password),
+        title: Boolean(title),
+        contents: Boolean(contents),
+      });
+      const rootElement = document.documentElement;
+      // For Safari
+      document.body.scrollTop = 140;
+
+      // For Chrome, Firefox, IE and Opera
+      rootElement.scrollTo({
+        top: 200,
+        behavior: "smooth"
+      })
+    }
+  }
+
   
-  return <BoardWritePresenter handleInput={handleInput} inputData={input} handleCreateBoard={handleCreateBoard} handleAddressModal={handleAddressModal} isModal={isModal} handleComplete={handleComplete} />
+  return <BoardWritePresenter handleInput={handleInput} inputData={input} handleAddressModal={handleAddressModal} isModal={isModal} handleComplete={handleComplete} requirements={requirements} checkRequirements={checkRequirements} />
 };
 
 export default BoardWriteContainer;

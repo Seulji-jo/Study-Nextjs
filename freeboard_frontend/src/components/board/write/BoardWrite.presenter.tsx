@@ -1,12 +1,12 @@
 // presenter는 ui만 그려줌
 
-import { Main, Dim, Close, Modal, BoardContainer, ContentTitle, ContentContainer, RowContainer, RowCenterAlign, InputContainer, InputTitle, Input, ImgUploader, UploadImg, ImgInput, TextArea, Button, RadioContainer, Radio } from "./BoardWrite.styles";
+import { Main, Dim, Close, Modal, BoardContainer, ContentTitle, ContentContainer, RowContainer, RowCenterAlign, InputContainer, InputTitle, Input, ImgUploader, UploadImg, ImgInput, TextArea, Button, RadioContainer, Radio, Warning } from "./BoardWrite.styles";
 import { IboardWirteProps } from "./BoardWrite.types";
 import DaumPostcode from 'react-daum-postcode';
 
 import Icon from "../../../../assets/img/uploadIcon.png";
 
-const BoardWritePresenter:React.FC<IboardWirteProps> = ({handleInput, handleCreateBoard, handleAddressModal, isModal, inputData, handleComplete}) => {
+const BoardWritePresenter:React.FC<IboardWirteProps> = ({handleInput, inputData, handleAddressModal, handleComplete, isModal, checkRequirements, requirements}) => {
   return (
     <Main>
       {isModal && (<Dim onClick={handleAddressModal}>
@@ -21,33 +21,37 @@ const BoardWritePresenter:React.FC<IboardWirteProps> = ({handleInput, handleCrea
         <RowContainer>
           <InputContainer width={'50%'}>
             <InputTitle>작성자</InputTitle>
-            <Input placeholder="이름을 적어주세요." onChange={handleInput} value={inputData.writer} name="writer"></Input>
+            <Input placeholder="이름을 적어주세요." onChange={handleInput} value={inputData.writer} isAvailable={requirements.writer} name="writer" />
+            {!requirements.writer && <Warning>⚠ 필수 입력입니다.</Warning>}
           </InputContainer>
           <InputContainer width={'50%'}>
             <InputTitle>비밀번호</InputTitle>
-            <Input placeholder="비밀번호를 입력해주세요." type="password" onChange={handleInput} value={inputData.password} name="password"></Input>
+            <Input placeholder="비밀번호를 입력해주세요." type="password" onChange={handleInput} value={inputData.password} isAvailable={requirements.password} name="password" />
+            {!requirements.password && <Warning>⚠ 필수 입력입니다.</Warning>}
           </InputContainer>
         </RowContainer>
         <InputContainer width={'100%'}>
           <InputTitle>제목</InputTitle>
-          <Input placeholder="제목을 작성해주세요." onChange={handleInput} value={inputData.title} name="title"></Input>
+          <Input placeholder="제목을 작성해주세요." onChange={handleInput} value={inputData.title} isAvailable={requirements.title} name="title" />
+          {!requirements.title && <Warning>⚠ 필수 입력입니다.</Warning>}
         </InputContainer>
         <InputContainer width={'100%'}>
           <InputTitle>내용</InputTitle>
-          <TextArea placeholder="내용을 작성해주세요." onChange={handleInput} value={inputData.contents} name="contents" />
+          <TextArea placeholder="내용을 작성해주세요." onChange={handleInput} value={inputData.contents} isAvailable={requirements.contents} name="contents" />
+          {!requirements.contents && <Warning>⚠ 필수 입력입니다.</Warning>}
         </InputContainer>
         <InputContainer width={'100%'}>
           <InputTitle>주소</InputTitle>
           <RowContainer>
-            <Input placeholder="07250" value={inputData.zipcode} readOnly width={'80px'} />
+            <Input placeholder="07250" value={inputData.zipcode} readOnly width={'80px'} isAvailable={true} />
             <Button bgColor={'#333'} onClick={handleAddressModal}>우편번호 검색</Button>
           </RowContainer>
-          <Input value={inputData.address} readOnly />
-          <Input onChange={handleInput} value={inputData.addressDetail} name="addressDetail" />
+          <Input value={inputData.address} readOnly isAvailable={true} />
+          <Input onChange={handleInput} value={inputData.addressDetail} name="addressDetail" isAvailable={true} />
         </InputContainer>
         <InputContainer width={'100%'}>
           <InputTitle>유튜브</InputTitle>
-          <Input placeholder="링크를 복사해주세요." onChange={handleInput} value={inputData.youtubeUrl} name="youtubeUrl"></Input>
+          <Input placeholder="링크를 복사해주세요." onChange={handleInput} value={inputData.youtubeUrl} name="youtubeUrl" isAvailable={true} />
         </InputContainer>
         <InputContainer width={'100%'}>
           <InputTitle>사진 첨부</InputTitle>
@@ -86,7 +90,7 @@ const BoardWritePresenter:React.FC<IboardWirteProps> = ({handleInput, handleCrea
         </InputContainer>
         </ContentContainer>
         <RowCenterAlign>
-          <Button padding='14px 60px' bgColor="#FFD600" color='#333' fontWeight={700} onClick={handleCreateBoard}>
+          <Button padding='14px 60px' bgColor="#FFD600" color='#333' fontWeight={700} onClick={checkRequirements}>
             등록하기
           </Button>
         </RowCenterAlign>

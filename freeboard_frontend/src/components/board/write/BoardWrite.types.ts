@@ -1,10 +1,12 @@
 export interface IboardWirteProps {
   handleInput: (e: any) => void;
-  handleCreateBoard: () => Promise<void>;
+  // handleCreateBoard: () => Promise<void>;
+  inputData: any;
   handleAddressModal: () => void;
   handleComplete: (data: object) => void;
   isModal: boolean;
-  inputData: any
+  checkRequirements: () => void;
+  requirements: any;
 }
 
 export type InputContainerProps = {
@@ -12,6 +14,10 @@ export type InputContainerProps = {
 }
 export type InputProps = {
   width?: string;
+  isAvailable?: boolean;
+}
+export type TextAreaProps = {
+  isAvailable?: boolean;
 }
 export type ButtonProps = {
   padding?: string

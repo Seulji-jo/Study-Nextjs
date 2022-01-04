@@ -1,5 +1,5 @@
 import styled from '@emotion/styled'
-import { InputContainerProps, InputProps, ButtonProps } from "./BoardWrite.types";
+import { InputContainerProps, InputProps, ButtonProps, TextAreaProps } from "./BoardWrite.types";
 
 export const Main = styled.main`
   display: flex;
@@ -98,12 +98,16 @@ export const Input = styled.input<InputProps>`
   
   padding: 0 8px;
   border: none;
-  border-bottom: 1px solid #BDBDBD;
+  border-bottom: 1px solid ${props => props.isAvailable ? '#BDBDBD' : '#f44336'};
   
   &:focus {
-    
-    border-bottom: 1px solid #333;
+    border-color: ${props => props.isAvailable ? '#333' : '#f44336'};
   }
+`
+export const Warning = styled.div`
+  padding-left: 8px;
+  font-size: 1.2rem;
+  color: #f44336;
 `
 
 export const ImgUploader = styled.label`
@@ -153,17 +157,17 @@ export const ImgInput = styled.input`
   visibility: hidden
 `
 
-export const TextArea = styled.textarea`
+export const TextArea = styled.textarea<TextAreaProps>`
   width: 100%;
   height: 380px;
   resize: none;
   
   padding: 14px 16px;
   font-size: 1.4rem;
-  border: 1px solid #BDBDBD;
+  border: 1px solid ${props => props.isAvailable ? '#BDBDBD' : '#f44336'};
   border-radius: 0;
   &:focus {
-    border: 1px solid #333;
+    border-color: ${props => props.isAvailable ? '#333' : '#f44336'};
   }
 `
 
