@@ -1,6 +1,5 @@
 import styled from '@emotion/styled'
-import { IinputContainerProps, IinputProps, Ibutton } from "./BoardWrite.types";
-import DaumPostcode from 'react-daum-postcode';
+import { InputContainerProps, InputProps, ButtonProps } from "./BoardWrite.types";
 
 export const Main = styled.main`
   display: flex;
@@ -17,7 +16,7 @@ export const Dim = styled.div`
   z-index: 100;
 `
 export const Modal = styled.div`
-  width: 525px;
+  width: 532px;
   height: 500px;
   display: flex;
   align-items: start;
@@ -32,8 +31,8 @@ export const Modal = styled.div`
   z-index: 999;
 `
 export const Close = styled.button`
-  width: 40px;
-  height: 40px;
+  width: 47px;
+  height: 47px;
 
   margin-left: 5px;
   background-color: #222;
@@ -79,8 +78,8 @@ export const RowCenterAlign = styled.div`
   justify-content: center;
 `
 
-export const InputContainer = styled.div<IinputContainerProps>`
-  width: ${props => props.width};
+export const InputContainer = styled.div<InputContainerProps>`
+  width: ${props => props.width ?? '100%'};
   & > *+* {
     margin-top: 8px;
   }
@@ -93,7 +92,7 @@ export const InputTitle = styled.div`
   font-weight: bold;
 `
 
-export const Input = styled.input<IinputProps>`
+export const Input = styled.input<InputProps>`
   width: ${props => props.width ?? '100%'};
   height: 42px;
   
@@ -168,8 +167,7 @@ export const TextArea = styled.textarea`
   }
 `
 
-export const Button = styled.button<Ibutton>`
-  
+export const Button = styled.button<ButtonProps>`
   padding: ${props => props.padding ?? '12px 16px'};
   font-size: 1.4rem;
   background-color: ${props => props.bgColor ?? '#333'};

@@ -1,18 +1,21 @@
 export interface IboardWirteProps {
   handleInput: (e: any) => void;
   handleCreateBoard: () => Promise<void>;
+  handleModal: () => void;
+  handleComplete: (data: object) => void;
+  isModal: boolean;
   inputData: any
 }
 
-export type IinputContainerProps = {
-  width: string | number;
+export type InputContainerProps = {
+  width?: string;
 }
-export type IinputProps = {
-  width: string | number | boolean;
+export type InputProps = {
+  width?: string;
 }
-export type Ibutton = {
-  padding: string
-  bgColor: string
-  color: string
-  fontWeight: number
+export type ButtonProps = {
+  padding?: string
+  bgColor?: string
+  color?: string
+  fontWeight?: number
 }

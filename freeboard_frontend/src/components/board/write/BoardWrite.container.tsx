@@ -14,8 +14,11 @@ const BoardWriteContainer = () => {
     title: '',
     contents: ''
   });
+  const [isModal, setIsModal] = useState(false);
+
   const router = useRouter();
   const [createBoard] = useMutation<Mutation, MutationCreateBoardArgs>(CREATE_BOARD)
+  
 
   const handleInput = (e:any) => {
     setInput({...input, [e.target.name]:e.target.value});
@@ -40,8 +43,33 @@ const BoardWriteContainer = () => {
       console.log(e);
     }
   }
+
+  const handleModal = () => {
+    setIsModal(!isModal);
+  }
+
+  const handleComplete = (data) => {
+    console.log(data);
+    handleModal();
+    
+    let fullAddress = data.address;
+    let extraAddress = ''; 
+    
+    if (data.addressType === 'R') {
+      if (data.bname !== '') {
+        extraAddress += data.bname;
+      }
+      if (data.buildingName !== '') {
+        extraAddress += (extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName);
+      }
+      fullAddress += (extraAddress !== '' ? ` (${extraAddress})` : '');
+    }
+
+    console.log(fullAddress);  // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
+  }
+
   
-  return <BoardWritePresenter handleInput={handleInput} inputData={input} handleCreateBoard={handleCreateBoard} />
+  return <BoardWritePresenter handleInput={handleInput} inputData={input} handleCreateBoard={handleCreateBoard} handleModal={handleModal} isModal={isModal} handleComplete={handleComplete} />
 };
 
 export default BoardWriteContainer;

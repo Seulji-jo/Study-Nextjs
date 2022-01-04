@@ -6,15 +6,15 @@ import DaumPostcode from 'react-daum-postcode';
 
 import Icon from "../../../../assets/img/uploadIcon.png";
 
-const BoardWritePresenter:React.FC<IboardWirteProps> = ({handleInput, handleCreateBoard, inputData}) => {
+const BoardWritePresenter:React.FC<IboardWirteProps> = ({handleInput, handleCreateBoard, handleModal, isModal, inputData, handleComplete}) => {
   return (
     <Main>
-      <Dim>
+      {isModal && (<Dim onClick={handleModal}>
         <Modal>
-          <DaumPostcode style={{width: '480px', height: '100%'}}></DaumPostcode>
-          <Close></Close>
+          <DaumPostcode onComplete={handleComplete} style={{width: '480px', height: '100%'}}></DaumPostcode>
+          <Close onClick={handleModal}></Close>
         </Modal>
-      </Dim>
+      </Dim>)}
       <BoardContainer>
         <ContentTitle>게시물 등록</ContentTitle>
         <ContentContainer>
@@ -40,8 +40,7 @@ const BoardWritePresenter:React.FC<IboardWirteProps> = ({handleInput, handleCrea
           <InputTitle>주소</InputTitle>
           <RowContainer>
             <Input placeholder="07250" onChange={handleInput} name='zipCode' readOnly width={'80px'}></Input>
-            <Button bgColor={'#333'}>우편번호 검색</Button>
-            
+            <Button bgColor={'#333'} onClick={handleModal}>우편번호 검색</Button>
           </RowContainer>
           <Input onChange={handleInput} name="address" readOnly />
           <Input onChange={handleInput} name="detailAdd" />
