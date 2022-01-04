@@ -12,7 +12,13 @@ const BoardWriteContainer = () => {
     writer: '', 
     password: '',
     title: '',
-    contents: ''
+    contents: '',
+    youtubeUrl: '',
+    zipcode: '',
+    address: '',
+    addressDetail: '',
+    images: [''],
+    mainSetting: 'youtube'
   });
   const [isModal, setIsModal] = useState(false);
 
@@ -25,7 +31,7 @@ const BoardWriteContainer = () => {
   }
 
   const handleCreateBoard = async () => {
-    const { writer, password, title, contents } = input
+    const { writer, password, title, contents, youtubeUrl, zipcode, address, addressDetail } = input
     try {
       const {data} = await createBoard({
         variables: {
@@ -33,7 +39,13 @@ const BoardWriteContainer = () => {
             writer,
             password,
             title,
-            contents
+            contents,
+            youtubeUrl,
+            boardAddress: {
+              zipcode,
+              address,
+              addressDetail
+            }
           }
         }
       })//모든 쿼리나 뮤테이션에 들어가는 파라미터는 variables(객체이름)안에 묶여 들어간다
@@ -44,18 +56,16 @@ const BoardWriteContainer = () => {
     }
   }
 
-  const handleModal = () => {
+  const handleAddressModal = () => {
     setIsModal(!isModal);
   }
 
   const handleComplete = (data) => {
-    console.log(data);
-    handleModal();
-    
     let fullAddress = data.address;
     let extraAddress = ''; 
     
-    if (data.addressType === 'R') {
+    if (data.userSelectedType === 'R') {
+      fullAddress = data.roadAddress
       if (data.bname !== '') {
         extraAddress += data.bname;
       }
@@ -63,13 +73,14 @@ const BoardWriteContainer = () => {
         extraAddress += (extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName);
       }
       fullAddress += (extraAddress !== '' ? ` (${extraAddress})` : '');
+    } else {
+      fullAddress = data.jibunAddress
     }
-
-    console.log(fullAddress);  // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
+    setInput({...input, zipcode: data.zonecode, address: fullAddress })
   }
 
   
-  return <BoardWritePresenter handleInput={handleInput} inputData={input} handleCreateBoard={handleCreateBoard} handleModal={handleModal} isModal={isModal} handleComplete={handleComplete} />
+  return <BoardWritePresenter handleInput={handleInput} inputData={input} handleCreateBoard={handleCreateBoard} handleAddressModal={handleAddressModal} isModal={isModal} handleComplete={handleComplete} />
 };
 
 export default BoardWriteContainer;

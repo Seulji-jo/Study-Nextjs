@@ -1,7 +1,7 @@
 export interface IboardWirteProps {
   handleInput: (e: any) => void;
   handleCreateBoard: () => Promise<void>;
-  handleModal: () => void;
+  handleAddressModal: () => void;
   handleComplete: (data: object) => void;
   isModal: boolean;
   inputData: any
