@@ -1,9 +1,9 @@
 import { useMutation, useQuery } from '@apollo/client';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { Mutation, MutationDislikeBoardArgs, MutationLikeBoardArgs, Query, QueryFetchBoardArgs } from '../../../commons/types/generated/types';
+import { Mutation, MutationDeleteBoardArgs, MutationDislikeBoardArgs, MutationLikeBoardArgs, Query, QueryFetchBoardArgs } from '../../../commons/types/generated/types';
 import BoardDetailPresenter from "./BoardDetail.presenter";
-import { FETCH_BOARD, LIKE_BOARD, DISLIKE_BOARD } from './BoardDetail.queries';
+import { FETCH_BOARD, LIKE_BOARD, DISLIKE_BOARD, DELETE_BOARD } from './BoardDetail.queries';
 
 const BoardDetailContainer = () => {
   const router = useRouter();
@@ -17,6 +17,7 @@ const BoardDetailContainer = () => {
   
   const [likeBoard] = useMutation<Mutation, MutationLikeBoardArgs>(LIKE_BOARD)
   const [dislikeBoard] = useMutation<Mutation, MutationDislikeBoardArgs>(DISLIKE_BOARD)
+  const [deleteBoard] = useMutation<Mutation, MutationDeleteBoardArgs>(DELETE_BOARD)
   
   const handleHover = () => {
     setIsHover(!isHover)
@@ -48,7 +49,20 @@ const BoardDetailContainer = () => {
       console.log(e)
     }
   }
-  return <BoardDetailPresenter data={data?.fetchBoard} isHover={isHover} handleHover={handleHover} handleLikeBoard={handleLikeBoard} handleDislikeBoard={handleDislikeBoard}  />
+  const handleDeleteBoard = async () => {
+    try {
+      const {data} = await deleteBoard({
+        variables: {
+          boardId: String(router.query.id)
+        }
+      })
+      console.log(data);
+      router.push('/board/list')
+    } catch (e) {
+      console.log(e)
+    }
+  }
+  return <BoardDetailPresenter data={data?.fetchBoard} isHover={isHover} handleHover={handleHover} handleLikeBoard={handleLikeBoard} handleDislikeBoard={handleDislikeBoard} handleDeleteBoard={handleDeleteBoard}  />
 }
 
 export default BoardDetailContainer;

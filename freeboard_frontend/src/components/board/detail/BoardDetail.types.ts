@@ -3,6 +3,8 @@ export interface IboardArticleProps {
   isHover: boolean;
   handleHover: () => void;
   handleLikeBoard: () => Promise<void>;
+  handleDislikeBoard: () => Promise<void>;
+  handleDeleteBoard: () => Promise<void>;
 }
 
 export type Avartar = {
