@@ -2,6 +2,7 @@ export interface IboardArticleProps {
   data: any;
   isHover: boolean;
   handleHover: () => void;
+  handleLikeBoard: () => Promise<void>;
 }
 
 export type Avartar = {

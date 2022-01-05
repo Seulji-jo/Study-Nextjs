@@ -119,6 +119,7 @@ export const EvaluationBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  cursor: pointer;
   & > * + * {
     padding-top: 12px;
   }

@@ -9,7 +9,7 @@ import Dislike from '../../../../assets/img/dislike.png'
 
 import ReactPlayer from 'react-player'
 
-const BoardDetailPresenter = ({data, isHover, handleHover}) => {
+const BoardDetailPresenter = ({data, isHover, handleHover, handleLikeBoard, handleDislikeBoard}) => {
 
   return (
     <Main>
@@ -52,12 +52,12 @@ const BoardDetailPresenter = ({data, isHover, handleHover}) => {
           </VideoContainer>)}
         </ContentSection>
         <EvaluationSection>
-          <EvaluationBox>
-            <Image src={Like.src} alt="like image" width='20px' height={18} />
+          <EvaluationBox onClick={handleLikeBoard}>
+            <Image src={Like} alt="like image" width='20px' height={18} />
             <TextContainer color='#FFD600'>{data?.likeCount}</TextContainer>
           </EvaluationBox>
-          <EvaluationBox>
-            <Image src={Dislike.src} alt="dislike img" width='20px' height={18} />
+          <EvaluationBox onClick={handleDislikeBoard}>
+            <Image src={Dislike} alt="dislike img" width='20px' height={18} />
             <TextContainer>{data?.dislikeCount}</TextContainer>
           </EvaluationBox>
         </EvaluationSection>

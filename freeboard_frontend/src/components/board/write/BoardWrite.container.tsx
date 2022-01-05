@@ -8,6 +8,7 @@ import BoardWritePresenter from "./BoardWrite.presenter";
 import { CREATE_BOARD } from './BoardWrite.queries';
 
 const BoardWriteContainer = () => {
+  const router = useRouter();
   const [input, setInput] = useState({
     writer: '', 
     password: '',
@@ -28,7 +29,6 @@ const BoardWriteContainer = () => {
     contents: true
   });
 
-  const router = useRouter();
   const [createBoard] = useMutation<Mutation, MutationCreateBoardArgs>(CREATE_BOARD)
   
 
