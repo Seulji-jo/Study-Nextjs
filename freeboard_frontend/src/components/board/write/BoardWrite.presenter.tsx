@@ -11,7 +11,7 @@ const BoardWritePresenter:React.FC<IboardWirteProps> = ({handleInput, inputData,
     <Main>
       {isModal && (<Dim onClick={handleAddressModal}>
         <Modal>
-          <DaumPostcode onComplete={handleComplete} onClose={handleAddressModal} style={{width: '480px', height: '100%'}}></DaumPostcode>
+          <DaumPostcode onComplete={handleComplete} onClose={handleAddressModal} style={{width: '480px', height: '100%'}} animation={true} errorMessage></DaumPostcode>
           <Close onClick={handleAddressModal}></Close>
         </Modal>
       </Dim>)}

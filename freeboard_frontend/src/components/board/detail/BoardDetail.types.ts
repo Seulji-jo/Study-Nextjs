@@ -1,4 +1,5 @@
 export interface IboardArticleProps {
+  data: any;
   isHover: boolean;
   handleHover: () => void;
 }

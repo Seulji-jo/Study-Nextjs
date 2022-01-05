@@ -1,7 +1,7 @@
-import BoardArticleContainer from '../../../src/components/board/detail/BoardDetail.container';
+import BoardDetailContainer from '../../../src/components/board/detail/BoardDetail.container';
 
-const BoardArticlePage = () => {
-  return <BoardArticleContainer />
+const BoardDetailPage = () => {
+  return <BoardDetailContainer />
 }
 
-export default BoardArticlePage
+export default BoardDetailPage
