@@ -1,3 +1,5 @@
+import { Board } from '../../../commons/types/generated/types'
+
 export interface IboardWirteProps {
   handleInput: (e: any) => void;
   // handleCreateBoard: () => Promise<void>;
@@ -7,6 +9,8 @@ export interface IboardWirteProps {
   isModal: boolean;
   checkRequirements: () => void;
   requirements: any;
+  data: Board;
+  onChangeImage: (e: any) => void;
 }
 
 export type InputContainerProps = {

@@ -6,7 +6,7 @@ import DaumPostcode from 'react-daum-postcode';
 
 import Icon from "../../../../assets/img/uploadIcon.png";
 
-const BoardWritePresenter:React.FC<IboardWirteProps> = ({handleInput, inputData, handleAddressModal, handleComplete, isModal, checkRequirements, requirements}) => {
+const BoardWritePresenter:React.FC<IboardWirteProps> = ({handleInput, inputData, handleAddressModal, handleComplete, isModal, checkRequirements, requirements, data, onChangeImage}) => {
   return (
     <Main>
       {isModal && (<Dim onClick={handleAddressModal}>
@@ -21,11 +21,12 @@ const BoardWritePresenter:React.FC<IboardWirteProps> = ({handleInput, inputData,
         <RowContainer>
           <InputContainer width={'50%'}>
             <InputTitle>작성자</InputTitle>
-            <Input placeholder="이름을 적어주세요." onChange={handleInput} value={inputData.writer} isAvailable={requirements.writer} name="writer" />
+            <Input placeholder="이름을 적어주세요." onChange={handleInput} defaultValue={data?.writer || ''} isAvailable={requirements.writer} name="writer" />
             {!requirements.writer && <Warning>⚠ 필수 입력입니다.</Warning>}
           </InputContainer>
           <InputContainer width={'50%'}>
             <InputTitle>비밀번호</InputTitle>
+            {/* password는 defaultValue를 넣으면 안된다 */}
             <Input placeholder="비밀번호를 입력해주세요." type="password" onChange={handleInput} value={inputData.password} isAvailable={requirements.password} name="password" />
             {!requirements.password && <Warning>⚠ 필수 입력입니다.</Warning>}
           </InputContainer>
@@ -59,15 +60,15 @@ const BoardWritePresenter:React.FC<IboardWirteProps> = ({handleInput, inputData,
             <ImgUploader>
               {/* {inputData.img1 ? <img src={inputData.img1} alt='img1' /> : <UploadIcon></UploadIcon>} */}
               <UploadImg src={inputData.img1 ?? Icon.src} alt='img1' />
-              <ImgInput type="file" accept="image/*" onChange={handleInput} name="img1"></ImgInput>
+              <ImgInput type="file" accept="image/*" onChange={onChangeImage} name="img1"></ImgInput>
             </ImgUploader>
             <ImgUploader>
               <UploadImg src={inputData.img2 ?? Icon.src} alt='img2' />
-              <ImgInput type="file" accept="image/*" onChange={handleInput} name="img2"></ImgInput>
+              <ImgInput type="file" accept="image/*" onChange={onChangeImage} name="img2"></ImgInput>
             </ImgUploader>
             <ImgUploader>
               <UploadImg src={inputData.img3 ?? Icon.src} alt='img3' />
-              <ImgInput type="file" accept="image/*" onChange={handleInput} name="img3"></ImgInput>
+              <ImgInput type="file" accept="image/*" onChange={onChangeImage} name="img3"></ImgInput>
             </ImgUploader>
           </RowContainer>
         </InputContainer>
