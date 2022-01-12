@@ -66,8 +66,11 @@ const BoardDetailContainer = () => {
   const gotoEditPage = () => {
     router.push(`/board/${id}/edit`)
   }
+  const gotoListPage = () => {
+    router.push('/board/list')
+  }
 
-  return <BoardDetailPresenter data={data?.fetchBoard} isHover={isHover} handleHover={handleHover} handleLikeBoard={handleLikeBoard} handleDislikeBoard={handleDislikeBoard} handleDeleteBoard={handleDeleteBoard} gotoEditPage={gotoEditPage}  />
+  return <BoardDetailPresenter data={data?.fetchBoard} isHover={isHover} handleHover={handleHover} handleLikeBoard={handleLikeBoard} handleDislikeBoard={handleDislikeBoard} handleDeleteBoard={handleDeleteBoard} gotoEditPage={gotoEditPage} gotoListPage={gotoListPage}  />
 }
 
 export default BoardDetailContainer;

@@ -6,6 +6,7 @@ export interface IboardArticleProps {
   handleDislikeBoard: () => Promise<void>;
   handleDeleteBoard: () => Promise<void>;
   gotoEditPage: () => void;
+  gotoListPage: () => void;
 }
 
 export type Avartar = {

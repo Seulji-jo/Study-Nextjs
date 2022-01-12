@@ -9,7 +9,7 @@ import Dislike from '../../../../assets/img/dislike.png'
 
 import ReactPlayer from 'react-player'
 
-const BoardDetailPresenter = ({data, isHover, handleHover, handleLikeBoard, handleDislikeBoard, handleDeleteBoard, gotoEditPage}) => {
+const BoardDetailPresenter = ({data, isHover, handleHover, handleLikeBoard, handleDislikeBoard, handleDeleteBoard, gotoEditPage, gotoListPage}) => {
 
   return (
     <Main>
@@ -63,7 +63,7 @@ const BoardDetailPresenter = ({data, isHover, handleHover, handleLikeBoard, hand
         </EvaluationSection>
       </BoardContainer>
       <ButtonWrapper>
-        <Button padding='14px 60px' bgColor='#fff' color='#333' border='1px solid #bdbdbd'>목록으로</Button>
+        <Button padding='14px 60px' bgColor='#fff' color='#333' border='1px solid #bdbdbd' onClick={gotoListPage}>목록으로</Button>
         <Button padding='14px 60px' bgColor='#fff' color='#333' border='1px solid #bdbdbd' onClick={gotoEditPage}>수정하기</Button>
         <Button padding='14px 60px' bgColor='#fff' color='#333' border='1px solid #bdbdbd' onClick={handleDeleteBoard}>삭제하기</Button>
       </ButtonWrapper>
