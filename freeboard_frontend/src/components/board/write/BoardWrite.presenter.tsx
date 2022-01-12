@@ -6,7 +6,7 @@ import DaumPostcode from 'react-daum-postcode';
 
 import Icon from "../../../../assets/img/uploadIcon.png";
 
-const BoardWritePresenter:React.FC<IboardWirteProps> = ({handleInput, inputData, handleAddressModal, handleComplete, isModal, checkRequirements, requirements, data, onChangeImage}) => {
+const BoardWritePresenter:React.FC<IboardWirteProps> = ({handleInput, inputData, handleAddressModal, handleComplete, isModal, submitBoardForm, requirements, onChangeImage, isEditPage, cancelToUpdate}) => {
   return (
     <Main>
       {isModal && (<Dim onClick={handleAddressModal}>
@@ -21,7 +21,7 @@ const BoardWritePresenter:React.FC<IboardWirteProps> = ({handleInput, inputData,
         <RowContainer>
           <InputContainer width={'50%'}>
             <InputTitle>작성자</InputTitle>
-            <Input placeholder="이름을 적어주세요." onChange={handleInput} defaultValue={data?.writer || ''} isAvailable={requirements.writer} name="writer" />
+            <Input placeholder="이름을 적어주세요." onChange={handleInput} value={inputData.writer} isAvailable={requirements.writer} name="writer" disabled={isEditPage} />
             {!requirements.writer && <Warning>⚠ 필수 입력입니다.</Warning>}
           </InputContainer>
           <InputContainer width={'50%'}>
@@ -44,11 +44,11 @@ const BoardWritePresenter:React.FC<IboardWirteProps> = ({handleInput, inputData,
         <InputContainer width={'100%'}>
           <InputTitle>주소</InputTitle>
           <RowContainer>
-            <Input placeholder="07250" value={inputData.zipcode} readOnly width={'80px'} isAvailable={true} />
+            <Input placeholder="07250" value={inputData.boardAddress.zipcode} readOnly width={'80px'} isAvailable={true} />
             <Button bgColor={'#333'} onClick={handleAddressModal}>우편번호 검색</Button>
           </RowContainer>
-          <Input value={inputData.address} readOnly isAvailable={true} />
-          <Input onChange={handleInput} value={inputData.addressDetail} name="addressDetail" isAvailable={true} />
+          <Input value={inputData.boardAddress.address} readOnly isAvailable={true} />
+          <Input onChange={handleInput} value={inputData.boardAddress.addressDetail} name="addressDetail" isAvailable={true} />
         </InputContainer>
         <InputContainer width={'100%'}>
           <InputTitle>유튜브</InputTitle>
@@ -91,8 +91,11 @@ const BoardWritePresenter:React.FC<IboardWirteProps> = ({handleInput, inputData,
         </InputContainer>
         </ContentContainer>
         <RowCenterAlign>
-          <Button padding='14px 60px' bgColor="#FFD600" color='#333' fontWeight={700} onClick={checkRequirements}>
-            등록하기
+          {isEditPage && <Button padding='14px 60px' bgColor="#bdbdbd" color='#333' fontWeight={700} onClick={cancelToUpdate}>
+            취소하기
+          </Button>}
+          <Button padding='14px 60px' bgColor="#FFD600" color='#333' fontWeight={700} onClick={submitBoardForm}>
+            {isEditPage ? '수정하기' : '등록하기'}
           </Button>
         </RowCenterAlign>
       </BoardContainer>

@@ -76,6 +76,9 @@ export const RowContainer = styled.div`
 export const RowCenterAlign = styled.div`
   display: flex;
   justify-content: center;
+  & > * + * {
+    margin-left: 24px;
+  }
 `
 
 export const InputContainer = styled.div<InputContainerProps>`

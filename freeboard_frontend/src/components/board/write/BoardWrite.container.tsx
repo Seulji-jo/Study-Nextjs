@@ -1,24 +1,26 @@
 // container에는 함수, 상태, 로직 이런것만 관리
-
 import { useMutation, useQuery } from '@apollo/client';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from "react";
-import { Mutation, MutationCreateBoardArgs, Query, QueryFetchBoardArgs } from '../../../commons/types/generated/types';
+import { Board, Mutation, MutationCreateBoardArgs, MutationUpdateBoardArgs, Query, QueryFetchBoardArgs } from '../../../commons/types/generated/types';
 import { FETCH_BOARD } from '../detail/BoardDetail.queries';
 import BoardWritePresenter from "./BoardWrite.presenter";
-import { CREATE_BOARD } from './BoardWrite.queries';
+import { CREATE_BOARD, UPDATE_BOARD } from './BoardWrite.queries';
+import { Iinput } from './BoardWrite.types';
 
 const BoardWriteContainer = () => {
   const router = useRouter();
-  const [input, setInput] = useState({
+  const [input, setInput] = useState<Iinput>({
     writer: '', 
     password: '',
     title: '',
     contents: '',
     youtubeUrl: '',
-    zipcode: '',
-    address: '',
-    addressDetail: '',
+    boardAddress: {
+      zipcode: '',
+      address: '',
+      addressDetail: '',
+    },
     images: [''],
     mainSetting: 'youtube'
   });
@@ -29,10 +31,12 @@ const BoardWriteContainer = () => {
     title: true,
     contents: true
   });
+  const [isEditPage, setIsEditPage] = useState(false);
 
   console.log(router.query.id);
 
   const [createBoard] = useMutation<Mutation, MutationCreateBoardArgs>(CREATE_BOARD)
+  const [updateBoard] = useMutation<Mutation, MutationUpdateBoardArgs>(UPDATE_BOARD)
 
   const {data} = useQuery<Query, QueryFetchBoardArgs>(FETCH_BOARD, {
     variables: {
@@ -47,15 +51,20 @@ const BoardWriteContainer = () => {
   // console.log(data?.fetchBoard)
 
   //method 2.
-  // props로  data 보내기
+  // props로 data 보내기
+  useEffect(() => {
+    setInput(input => ({...input, ...data?.fetchBoard, boardAddress: {address: data?.fetchBoard.boardAddress.address, addressDetail: data?.fetchBoard.boardAddress.addressDetail, zipcode: data?.fetchBoard.boardAddress.zipcode}}))
+    if (data) setIsEditPage(true)
+  }, [data])
   
-
   const handleInput = (e:any) => {
-    setInput({...input, [e.target.name]:e.target.value});
+    if (e.target.name === 'addressDetail') setInput({...input, boardAddress: {...input.boardAddress, addressDetail:e.target.value}});
+    else setInput({...input, [e.target.name]:e.target.value});
+    console.log(input)
   }
 
   const handleCreateBoard = async () => {
-    const { writer, password, title, contents, youtubeUrl, zipcode, address, addressDetail } = input
+    const { writer, password, title, contents, youtubeUrl, boardAddress } = input
     try {
       const {data} = await createBoard({
         variables: {
@@ -65,11 +74,7 @@ const BoardWriteContainer = () => {
             title,
             contents,
             youtubeUrl,
-            boardAddress: {
-              zipcode,
-              address,
-              addressDetail
-            }
+            boardAddress
           }
         }
       })//모든 쿼리나 뮤테이션에 들어가는 파라미터는 variables(객체이름)안에 묶여 들어간다
@@ -78,6 +83,35 @@ const BoardWriteContainer = () => {
     } catch(e) {
       console.log(e);
     }
+  }
+  const handleUpdateBoard = async () => {
+    try {
+      const { writer, password, title, contents, youtubeUrl, boardAddress, _id } = input
+      console.log(password);
+      
+      const {data} = await updateBoard({
+        variables: {
+          updateBoardInput: {
+            title,
+            contents,
+            youtubeUrl,
+            boardAddress
+          },
+          password,
+          boardId:_id
+        }
+      })
+      console.log(router.pathname);
+      router.push({
+        pathname: '/board/[id]',
+        query: {...router.query, id: data.updateBoard._id},
+      })
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  const cancelToUpdate = () => {
+    router.back()
   }
   // 수정할 때 데이터를 변경하지 않고 수정하는 값
   // ex) 제목만 수정하고 싶다.
@@ -104,7 +138,7 @@ const BoardWriteContainer = () => {
     } else {
       fullAddress = data.jibunAddress
     }
-    setInput({...input, zipcode: data.zonecode, address: fullAddress })
+    setInput({...input, boardAddress: {...input.boardAddress, zipcode: data.zonecode, address: fullAddress} })
   }
 
   // 이미지 -> 이미지 서버 -> 이미지 서버에 파일을 저장
@@ -128,7 +162,7 @@ const BoardWriteContainer = () => {
   const checkRequirements= () => {
     const { writer, password, title, contents} = input
     if (writer && password && title && contents) {
-      handleCreateBoard();
+      return true;
     } else {
       setRequirements({
         writer: Boolean(writer),
@@ -145,11 +179,20 @@ const BoardWriteContainer = () => {
         top: 200,
         behavior: "smooth"
       })
+      return false;
     }
   }
 
+  const submitBoardForm = () => {
+    if (checkRequirements()) {
+      if (isEditPage) handleUpdateBoard();
+      else handleCreateBoard();
+    }
+  }
+
+  console.log(isEditPage);
   
-  return <BoardWritePresenter handleInput={handleInput} inputData={input} handleAddressModal={handleAddressModal} isModal={isModal} handleComplete={handleComplete} requirements={requirements} checkRequirements={checkRequirements} data={data?.fetchBoard} onChangeImage={onChangeImage} />
+  return <BoardWritePresenter handleInput={handleInput} inputData={input} handleAddressModal={handleAddressModal} isModal={isModal} handleComplete={handleComplete} requirements={requirements} submitBoardForm={submitBoardForm} onChangeImage={onChangeImage} isEditPage={isEditPage} cancelToUpdate={cancelToUpdate} />
 };
 
 export default BoardWriteContainer;

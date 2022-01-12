@@ -1,5 +1,21 @@
 import { Board } from '../../../commons/types/generated/types'
 
+export interface Iinput {
+  writer?: string, 
+  password?: string,
+  title: string,
+  contents: string,
+  youtubeUrl?: string,
+  boardAddress?: {
+    zipcode?: string,
+    address?: string,
+    addressDetail?: string,
+  },
+  images?: string[],
+  mainSetting?: string,
+  _id?: string
+}
+
 export interface IboardWirteProps {
   handleInput: (e: any) => void;
   // handleCreateBoard: () => Promise<void>;
@@ -7,10 +23,12 @@ export interface IboardWirteProps {
   handleAddressModal: () => void;
   handleComplete: (data: object) => void;
   isModal: boolean;
-  checkRequirements: () => void;
+  submitBoardForm: () => void;
   requirements: any;
-  data: Board;
+  data?: Board;
   onChangeImage: (e: any) => void;
+  isEditPage: boolean;
+  cancelToUpdate: () => void;
 }
 
 export type InputContainerProps = {
