@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import {Itext, Iimg, Ibutton} from './BoardList.types'
+import {textProps, imgProps, btnProps} from './BoardList.types'
 
 
 export const Main = styled.main`
@@ -57,7 +57,7 @@ export const BestBoardData = styled.div`
     margin-top: 20px;
   }
 `
-export const Text = styled.div<Itext>`
+export const Text = styled.div<textProps>`
   font-size: ${props => props.fontSize ?? '1.8rem'};
   color: ${props => props.color ?? '#333'}
 `
@@ -76,7 +76,7 @@ export const BbUserInfo = styled.div`
     margin-left: 6px;
   }
 `
-export const BbUserAvatar = styled.div<Iimg>`
+export const BbUserAvatar = styled.div<imgProps>`
   width: 20px;
   height: 20px;
   background: center / contain no-repeat url(${props => props.img ?? '../../../../assets/img/avatar.png'});
@@ -123,7 +123,7 @@ export const SearchBox = styled.div`
     margin-left: 12px;
   }
 `
-export const SearchIcon = styled.div<Iimg>`
+export const SearchIcon = styled.div<imgProps>`
   width: 18px;
   height: 18px;
   background: center / contain no-repeat url(${props => props.img});
@@ -134,7 +134,7 @@ export const SearchInput = styled.input`
   background-color: transparent;
   border: none;
 `
-export const Button = styled.button<Ibutton>`
+export const Button = styled.button<btnProps>`
   display: flex;
   align-items: center;
   padding: 14px 16px;

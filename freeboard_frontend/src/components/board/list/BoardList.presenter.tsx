@@ -7,106 +7,45 @@ import { Main, BoardContainer, BestBoardSection, ContentTitle, BestBoardLists, B
 import Avatar from '../../../../assets/img/avatar.png'
 import Like from '../../../../assets/img/like.png'
 import Image1 from '../../../../assets/img/img1.png'
-import Image2 from '../../../../assets/img/img2.png'
-import Image3 from '../../../../assets/img/img3.png'
-import Image4 from '../../../../assets/img/img4.png'
 import Search from '../../../../assets/img/search.png'
 import Prev from '../../../../assets/img/prev.png'
 import Next from '../../../../assets/img/next.png'
 import Write from '../../../../assets/img/writeIcon.png'
 import { IboardListProps } from './BoardList.types'
+import dayjs from 'dayjs';
 
-const BoardListPresenter:React.FC<IboardListProps> = ({handleInput}) => {
+const BoardListPresenter:React.FC<IboardListProps> = ({handleInput, bestBoards}) => {
+  console.log(bestBoards);
+  
   return (
     <Main>
       <BoardContainer>
         <BestBoardSection>
           <ContentTitle>베스트 게시글</ContentTitle>
           <BestBoardLists>
-            <BestBoardContainer>
+            {bestBoards?.map(board => (
+            <BestBoardContainer key={board._id}>
               <BestBoard>
-              <BestBoardImg src={Image1.src} alt='img1' />
+              <BestBoardImg src={Image1.src} alt='best board image' />
                 <BestBoardData>
-                  <Text fontSize='16px'>게시물 제목입니다.</Text>
+                  <Text fontSize='16px'>{board.title}</Text>
                   <BestBoardUserWrapper>
                     <div>
                       <BbUserInfo>
                         <BbUserAvatar img={Avatar.src} />
-                        <Text fontSize='14px'>노원두</Text>
+                        <Text fontSize='14px'>{board.writer}</Text>
                       </BbUserInfo>
-                      <Text fontSize='12px' color='#828282'>Date : 2021.02.18</Text>
+                      <Text fontSize='12px' color='#828282'>Date : {dayjs(board.updatedAt).format('YYYY.MM.DD')}</Text>
                     </div>
                     <LikeWrapper>
                       <LikeIcon src={Like.src} alt='like icon' />
-                      <Text fontSize='14px'>365</Text>
+                      <Text fontSize='14px'>{board.likeCount}</Text>
                     </LikeWrapper>
                   </BestBoardUserWrapper>
                 </BestBoardData>
               </BestBoard>
             </BestBoardContainer>
-            <BestBoardContainer>
-              <BestBoard>
-              <BestBoardImg src={Image2.src} alt='img2' />
-                <BestBoardData>
-                  <Text fontSize='16px'>게시물 제목입니다.</Text>
-                  <BestBoardUserWrapper>
-                    <div>
-                      <BbUserInfo>
-                        <BbUserAvatar img={Avatar.src} />
-                        <Text fontSize='14px'>노원두</Text>
-                      </BbUserInfo>
-                      <Text fontSize='12px' color='#828282'>Date : 2021.02.18</Text>
-                    </div>
-                    <LikeWrapper>
-                      <LikeIcon src={Like.src} alt='like icon' />
-                      <Text fontSize='14px'>365</Text>
-                    </LikeWrapper>
-                  </BestBoardUserWrapper>
-                </BestBoardData>
-              </BestBoard>
-            </BestBoardContainer>
-            <BestBoardContainer>
-              <BestBoard>
-              <BestBoardImg src={Image3.src} alt='img3' />
-                <BestBoardData>
-                  <Text fontSize='16px'>게시물 제목입니다.</Text>
-                  <BestBoardUserWrapper>
-                    <div>
-                      <BbUserInfo>
-                        <BbUserAvatar img={Avatar.src} />
-                        <Text fontSize='14px'>노원두</Text>
-                      </BbUserInfo>
-                      <Text fontSize='12px' color='#828282'>Date : 2021.02.18</Text>
-                    </div>
-                    <LikeWrapper>
-                      <LikeIcon src={Like.src} alt='like icon' />
-                      <Text fontSize='14px'>365</Text>
-                    </LikeWrapper>
-                  </BestBoardUserWrapper>
-                </BestBoardData>
-              </BestBoard>
-            </BestBoardContainer>
-            <BestBoardContainer>
-              <BestBoard>
-              <BestBoardImg src={Image4.src} alt='img4' />
-                <BestBoardData>
-                  <Text fontSize='16px'>게시물 제목입니다.</Text>
-                  <BestBoardUserWrapper>
-                    <div>
-                      <BbUserInfo>
-                        <BbUserAvatar img={Avatar.src} />
-                        <Text fontSize='14px'>노원두</Text>
-                      </BbUserInfo>
-                      <Text fontSize='12px' color='#828282'>Date : 2021.02.18</Text>
-                    </div>
-                    <LikeWrapper>
-                      <LikeIcon src={Like.src} alt='like icon' />
-                      <Text fontSize='14px'>365</Text>
-                    </LikeWrapper>
-                  </BestBoardUserWrapper>
-                </BestBoardData>
-              </BestBoard>
-            </BestBoardContainer>
+            ))}
           </BestBoardLists>
         </BestBoardSection>
         <BoardListSection>
