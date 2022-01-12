@@ -8,10 +8,11 @@ import { FETCH_BOARD, LIKE_BOARD, DISLIKE_BOARD, DELETE_BOARD } from './BoardDet
 const BoardDetailContainer = () => {
   const router = useRouter();
   const [isHover, setIsHover] = useState(false)
+  const {id} = router.query
 
   const {data, refetch} = useQuery<Query, QueryFetchBoardArgs>(FETCH_BOARD, {
     variables: {
-      boardId: String(router.query.id)
+      boardId: String(id)
     }
   }); // parameter가 있는경우는 두번째 parameter에 중괄호 넣고 variables를 넣는다
   
@@ -27,7 +28,7 @@ const BoardDetailContainer = () => {
     try {
       const {data} = await likeBoard({
         variables: {
-          boardId: String(router.query.id)
+          boardId: String(id)
         }
       })
       console.log(data);
@@ -40,7 +41,7 @@ const BoardDetailContainer = () => {
     try {
       const {data} = await dislikeBoard({
         variables: {
-          boardId: String(router.query.id)
+          boardId: String(id)
         }
       })
       console.log(data);
@@ -53,7 +54,7 @@ const BoardDetailContainer = () => {
     try {
       const {data} = await deleteBoard({
         variables: {
-          boardId: String(router.query.id)
+          boardId: String(id)
         }
       })
       console.log(data);
@@ -62,7 +63,11 @@ const BoardDetailContainer = () => {
       console.log(e)
     }
   }
-  return <BoardDetailPresenter data={data?.fetchBoard} isHover={isHover} handleHover={handleHover} handleLikeBoard={handleLikeBoard} handleDislikeBoard={handleDislikeBoard} handleDeleteBoard={handleDeleteBoard}  />
+  const gotoEditPage = () => {
+    router.push(`/board/${id}/edit`)
+  }
+
+  return <BoardDetailPresenter data={data?.fetchBoard} isHover={isHover} handleHover={handleHover} handleLikeBoard={handleLikeBoard} handleDislikeBoard={handleDislikeBoard} handleDeleteBoard={handleDeleteBoard} gotoEditPage={gotoEditPage}  />
 }
 
 export default BoardDetailContainer;
