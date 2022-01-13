@@ -176,10 +176,13 @@ export const PaginationContainer = styled.ul`
   display: flex;
   line-height: 12px;
 `
-export const Pagination = styled.div`
+export const Pagination = styled.ul`
   padding: 0 28px;
   display: flex;
   color: #4F4F4F;
+  & > * {
+    cursor: pointer;
+  }
   & > * + * {
     margin-left: 20px; 
   }
@@ -188,6 +191,10 @@ export const Pagination = styled.div`
     font-weight: 700;
     text-decoration: underline;
   }
+`
+export const PageBtn = styled.button`
+  background-color: transparent;
+  border: none;
 `
 export const CreationBtnWrapper = styled.div`
   position: absolute;

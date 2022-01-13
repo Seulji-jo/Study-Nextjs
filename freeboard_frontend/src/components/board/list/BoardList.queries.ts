@@ -26,3 +26,9 @@ export const FETCH_BOARDS = gql`
     }
   }
 `
+
+export const BOARDS_COUNT = gql`
+  query fetchBoardsCount {
+    fetchBoardsCount
+  }
+`

@@ -4,6 +4,9 @@ export interface IboardListProps {
   handleInput: (e: any) => void;
   bestBoards: Board[];
   boardLists: Board[];
+  pageArr: number[];
+  currPage: number;
+  changeCurrPage: (pageNum: number) => void;
 }
 
 export type textProps = {
@@ -12,11 +15,11 @@ export type textProps = {
 }
 
 export type imgProps = {
-  img: string
+  img?: string
 }
 
 export type btnProps = {
-  backgroundColor: string;
-  border: string;
-  color: string;
+  backgroundColor?: string;
+  border?: string;
+  color?: string;
 }

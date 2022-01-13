@@ -3,7 +3,7 @@ const { RangePicker } = DatePicker;
 import 'antd/dist/antd.css';
 import Image from 'next/image'
 
-import { Main, BoardContainer, BestBoardSection, ContentTitle, BestBoardLists, BestBoardContainer, BestBoard, BestBoardImg, BestBoardData, Text, BestBoardUserWrapper, BbUserInfo, BbUserAvatar, LikeWrapper, LikeIcon, BoardListSection, SearchContainer, SearchBox, SearchIcon, SearchInput, Button, BoardListTable, TableTitle, BoardTitleList, TableData, PaginationContainer, Pagination, CreationBtnWrapper} from './BoardList.styles'
+import { Main, BoardContainer, BestBoardSection, ContentTitle, BestBoardLists, BestBoardContainer, BestBoard, BestBoardImg, BestBoardData, Text, BestBoardUserWrapper, BbUserInfo, BbUserAvatar, LikeWrapper, LikeIcon, BoardListSection, SearchContainer, SearchBox, SearchIcon, SearchInput, Button, BoardListTable, TableTitle, BoardTitleList, TableData, PaginationContainer, Pagination, PageBtn, CreationBtnWrapper} from './BoardList.styles'
 import Avatar from '../../../../assets/img/avatar.png'
 import Like from '../../../../assets/img/like.png'
 import Image1 from '../../../../assets/img/img1.png'
@@ -14,7 +14,7 @@ import Write from '../../../../assets/img/writeIcon.png'
 import { IboardListProps } from './BoardList.types'
 import dayjs from 'dayjs';
 
-const BoardListPresenter:React.FC<IboardListProps> = ({handleInput, bestBoards, boardLists}) => {
+const BoardListPresenter:React.FC<IboardListProps> = ({handleInput, bestBoards, boardLists, pageArr, currPage, changeCurrPage}) => {
   return (
     <Main>
       <BoardContainer>
@@ -77,16 +77,21 @@ const BoardListPresenter:React.FC<IboardListProps> = ({handleInput, bestBoards, 
           </BoardListTable>
           <PaginationContainer>
             <li>
-              <Image src={Prev} alt='preview' />
+              <PageBtn>
+                <Image src={Prev} alt='preview' />
+              </PageBtn>
             </li>
             <li>
               <Pagination>
-                <div onClick={handleInput}>1</div>
-                <div className='active' onClick={handleInput}>2</div>
+                {/* <li onClick={handleInput}>1</li>
+                <li className='active' onClick={handleInput}>2</li> */}
+                {pageArr.map(page => <li key={page} className={page === currPage ? 'active' : ''} onClick={() => changeCurrPage(page)}>{page}</li>)}
               </Pagination>
             </li>
             <li>
-              <Image src={Next} alt='next' />
+              <PageBtn>
+                <Image src={Next} alt='next' />
+              </PageBtn>
             </li>
           </PaginationContainer>
           <CreationBtnWrapper>
