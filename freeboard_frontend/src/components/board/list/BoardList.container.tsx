@@ -2,8 +2,8 @@ import { useState } from 'react';
 import BoardListPresenter from './BoardList.presenter';
 import _ from 'lodash';
 import { useQuery } from '@apollo/client';
-import { Query } from '../../../commons/types/generated/types';
-import { BEST_BOARDS } from './BoardList.queries';
+import { Query, QueryFetchBoardsArgs } from '../../../commons/types/generated/types';
+import { BEST_BOARDS, FETCH_BOARDS } from './BoardList.queries';
 
 const BoardListContainer = () => {
   const [input, setInput] = useState({});
@@ -12,7 +12,8 @@ const BoardListContainer = () => {
   const [pageArr, setPageArr] = useState([]);
 
   const {data:bestBoards} = useQuery<Query>(BEST_BOARDS);
-  console.log(bestBoards);
+  const {data:boardLists} = useQuery<Query, QueryFetchBoardsArgs>(FETCH_BOARDS);
+  console.log(boardLists);
   
 
   // 배열의 갯수는 전체 페이지 수 / 10 했을 때 나머지
@@ -40,7 +41,7 @@ const BoardListContainer = () => {
   const debounce = _.debounce(handleInput, 500) // 0.5초동안 아무런 실행이 없으면 실행
   // const debounce = _.debounce((e) => {setInput(~)}, 500)
   
-  return <BoardListPresenter handleInput={debounce} bestBoards={bestBoards?.fetchBoardsOfTheBest} />
+  return <BoardListPresenter handleInput={debounce} bestBoards={bestBoards?.fetchBoardsOfTheBest} boardLists={boardLists?.fetchBoards} />
 }
 
 export default BoardListContainer;

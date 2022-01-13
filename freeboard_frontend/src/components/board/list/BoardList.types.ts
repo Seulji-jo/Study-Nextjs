@@ -3,6 +3,7 @@ import { Board } from "../../../commons/types/generated/types"
 export interface IboardListProps {
   handleInput: (e: any) => void;
   bestBoards: Board[];
+  boardLists: Board[];
 }
 
 export type textProps = {

@@ -14,9 +14,7 @@ import Write from '../../../../assets/img/writeIcon.png'
 import { IboardListProps } from './BoardList.types'
 import dayjs from 'dayjs';
 
-const BoardListPresenter:React.FC<IboardListProps> = ({handleInput, bestBoards}) => {
-  console.log(bestBoards);
-  
+const BoardListPresenter:React.FC<IboardListProps> = ({handleInput, bestBoards, boardLists}) => {
   return (
     <Main>
       <BoardContainer>
@@ -69,66 +67,12 @@ const BoardListPresenter:React.FC<IboardListProps> = ({handleInput, bestBoards})
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <TableData>10</TableData>
-                    <TableData>게시물 제목입니다.</TableData>
-                    <TableData>노원두</TableData>
-                    <TableData>2020.09.28</TableData>
-                </tr>
-                <tr>
-                    <TableData>9</TableData>
-                    <TableData>게시물 제목입니다.</TableData>
-                    <TableData>노원두</TableData>
-                    <TableData>2020.09.28</TableData>
-                </tr>
-                <tr>
-                    <TableData>8</TableData>
-                    <TableData>게시물 제목입니다.</TableData>
-                    <TableData>노원두</TableData>
-                    <TableData>2020.09.28</TableData>
-                </tr>
-                <tr>
-                    <TableData>7</TableData>
-                    <TableData>게시물 제목입니다.</TableData>
-                    <TableData>노원두</TableData>
-                    <TableData>2020.09.28</TableData>
-                </tr>
-                <tr>
-                    <TableData>6</TableData>
-                    <TableData>게시물 제목입니다.</TableData>
-                    <TableData>노원두</TableData>
-                    <TableData>2020.09.28</TableData>
-                </tr>
-                <tr>
-                    <TableData>5</TableData>
-                    <TableData>게시물 제목입니다.</TableData>
-                    <TableData>노원두</TableData>
-                    <TableData>2020.09.28</TableData>
-                </tr>
-                <tr>
-                    <TableData>4</TableData>
-                    <TableData>게시물 제목입니다.</TableData>
-                    <TableData>노원두</TableData>
-                    <TableData>2020.09.28</TableData>
-                </tr>
-                <tr>
-                    <TableData>3</TableData>
-                    <TableData>게시물 제목입니다.</TableData>
-                    <TableData>노원두</TableData>
-                    <TableData>2020.09.28</TableData>
-                </tr>
-                <tr>
-                    <TableData>2</TableData>
-                    <TableData>게시물 제목입니다.</TableData>
-                    <TableData>노원두</TableData>
-                    <TableData>2020.09.28</TableData>
-                </tr>
-                <tr>
-                    <TableData>1</TableData>
-                    <TableData>게시물 제목입니다.</TableData>
-                    <TableData>노원두</TableData>
-                    <TableData>2020.09.28</TableData>
-                </tr>
+                {boardLists?.map((list, i) => (<tr key={list._id}>
+                    <TableData>{10 - i}</TableData>
+                    <TableData>{list.title}</TableData>
+                    <TableData>{list.writer}</TableData>
+                    <TableData>{dayjs(list.updatedAt).format('YYYY.MM.DD')}</TableData>
+                </tr>))}
             </tbody>
           </BoardListTable>
           <PaginationContainer>
