@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import BoardListPresenter from './BoardList.presenter';
 import _ from 'lodash';
-import { useQuery } from '@apollo/client';
+import { useLazyQuery, useQuery } from '@apollo/client';
 import { Query, QueryFetchBoardsArgs } from '../../../commons/types/generated/types';
 import { BEST_BOARDS, BOARDS_COUNT, FETCH_BOARDS } from './BoardList.queries';
 
@@ -11,10 +11,9 @@ const BoardListContainer = () => {
   const [search, setSearch] = useState('');
   const [pageArr, setPageArr] = useState([]);
   const [currPageArr, setCurrPageArr] = useState<number>(0)
-  // const [lastPageArr, setLastPageArr] = useState<number>(0)
 
   const {data:bestBoards} = useQuery<Query>(BEST_BOARDS);
-  const {data:boardLists} = useQuery<Query, QueryFetchBoardsArgs>(FETCH_BOARDS);
+  const [fetchBoards, {data:boardLists}] = useLazyQuery<Query, QueryFetchBoardsArgs>(FETCH_BOARDS);
   const {data:boardCount} = useQuery<Query>(BOARDS_COUNT)
 
   const handlePageArr = () => {
@@ -35,6 +34,9 @@ const BoardListContainer = () => {
   useEffect(() => {
     setCurrPage(pageArr[0])
   }, [pageArr])
+  // useEffect(() => {
+  //   fetchBoards({variables: {page: currPage}})
+  // }, [boardLists])
   
   // 배열의 갯수는 전체 페이지 수 / 5 했을 때 나머지
 
@@ -51,16 +53,18 @@ const BoardListContainer = () => {
   // onChange -> 타자 하나하나 입력할때마다 바로바로 실행
   // -> react 특성상 계속 컨테이너를 업데이트 (상태 변화로 인한 업데이트
   // debounce -> 마지막 한 번만 함수를 실행하도록 도와줌
-  // 서치에 주로 쓰인다. -> 서버를 계속 호출하지 않기 위해
+  // 서치에 주로 쓰인다. -> 서버를 계속 호출하지 않기 위해  
 
-  const handleInput = (e:any) => {
-    setInput({...input, [e.target.name]: e.target.value});
+  const handleSearch = (e:any) => {
+    console.log(e);
+    
+    setSearch(e.target.value);
   }
   const changeCurrPage = (pageNum: number) => {
     setCurrPage(pageNum)
   }
   
-  const debounce = _.debounce(handleInput, 500) // 0.5초동안 아무런 실행이 없으면 실행
+  const debounce = _.debounce((e) => handleSearch(e), 500) // 0.5초동안 아무런 실행이 없으면 실행
   // const debounce = _.debounce((e) => {setInput(~)}, 500)
 
   const prevPageArr = () => {
@@ -90,9 +94,19 @@ const BoardListContainer = () => {
       setCurrPageArr(Math.floor(countPages / 5))
     } 
   }
-  
-  
-  return <BoardListPresenter handleInput={debounce} bestBoards={bestBoards?.fetchBoardsOfTheBest} boardLists={boardLists?.fetchBoards} pageArr={pageArr} currPage={currPage} changeCurrPage={changeCurrPage} prevPageArr={prevPageArr} nextPageArr={nextPageArr} changeStartPage={changeStartPage} changeEndPage={changeEndPage} />
+  const clickSearchBtn = () => {
+    console.log(search);
+    console.log(currPage);
+    
+    fetchBoards({
+      variables: {
+        search:search,
+        page: currPage
+      }
+    })
+  }
+
+  return <BoardListPresenter bestBoards={bestBoards?.fetchBoardsOfTheBest} boardLists={boardLists?.fetchBoards} searchVal={search} handleSearch={debounce} pageArr={pageArr} currPage={currPage} changeCurrPage={changeCurrPage} prevPageArr={prevPageArr} nextPageArr={nextPageArr} changeStartPage={changeStartPage} changeEndPage={changeEndPage} clickSearchBtn={clickSearchBtn} />
 }
 
 export default BoardListContainer;

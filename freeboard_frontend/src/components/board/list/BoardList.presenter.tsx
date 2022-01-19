@@ -14,7 +14,7 @@ import Write from '../../../../assets/img/writeIcon.png'
 import { IboardListProps } from './BoardList.types'
 import dayjs from 'dayjs';
 
-const BoardListPresenter:React.FC<IboardListProps> = ({handleInput, bestBoards, boardLists, pageArr, currPage, changeCurrPage, prevPageArr, nextPageArr, changeStartPage, changeEndPage}) => {
+const BoardListPresenter:React.FC<IboardListProps> = ({bestBoards, boardLists, searchVal, handleSearch, pageArr, currPage, changeCurrPage, prevPageArr, nextPageArr, changeStartPage, changeEndPage, clickSearchBtn}) => {
   return (
     <Main>
       <BoardContainer>
@@ -50,12 +50,12 @@ const BoardListPresenter:React.FC<IboardListProps> = ({handleInput, bestBoards, 
           <SearchContainer>
             <SearchBox>
               <SearchIcon img={Search.src}></SearchIcon>
-              <SearchInput placeholder='제목을 검색해주세요' onChange={handleInput} name='search' />
+              <SearchInput placeholder='제목을 검색해주세요' onChange={handleSearch} name='search' />
             </SearchBox>
             <Space className='search-date--wrapper'>
               <RangePicker className='search-date' placeholder={['YYYY. MM.DD', 'YYYY. MM.DD']} format='YYYY. MM.DD' suffixIcon={null} />
             </Space>
-            <Button>검색하기</Button>
+            <Button onClick={clickSearchBtn}>검색하기</Button>
           </SearchContainer>
           <BoardListTable>
             <thead>

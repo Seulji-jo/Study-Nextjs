@@ -1,9 +1,10 @@
 import { Board } from "../../../commons/types/generated/types"
 
 export interface IboardListProps {
-  handleInput: (e: any) => void;
   bestBoards: Board[];
   boardLists: Board[];
+  searchVal: string;
+  handleSearch: (e: any) => void;
   pageArr: number[];
   currPage: number;
   changeCurrPage: (pageNum: number) => void;
@@ -11,6 +12,7 @@ export interface IboardListProps {
   nextPageArr: () => boolean;
   changeStartPage: () => void;
   changeEndPage: () => void;
+  clickSearchBtn: () => void;
 }
 
 export type textProps = {
