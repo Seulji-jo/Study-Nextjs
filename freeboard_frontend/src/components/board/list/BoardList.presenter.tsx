@@ -14,7 +14,7 @@ import Write from '../../../../assets/img/writeIcon.png'
 import { IboardListProps } from './BoardList.types'
 import dayjs from 'dayjs';
 
-const BoardListPresenter:React.FC<IboardListProps> = ({handleInput, bestBoards, boardLists, pageArr, currPage, changeCurrPage, prevPageArr, nextPageArr}) => {
+const BoardListPresenter:React.FC<IboardListProps> = ({handleInput, bestBoards, boardLists, pageArr, currPage, changeCurrPage, prevPageArr, nextPageArr, changeStartPage, changeEndPage}) => {
   return (
     <Main>
       <BoardContainer>
@@ -77,6 +77,12 @@ const BoardListPresenter:React.FC<IboardListProps> = ({handleInput, bestBoards, 
           </BoardListTable>
           <PaginationContainer>
             <li>
+              <PageBtn disabled={!prevPageArr} onClick={changeStartPage}>
+                <Image src={Prev} alt='preview' />
+                <Image src={Prev} alt='preview' />
+              </PageBtn>
+            </li>
+            <li>
               <PageBtn disabled={!prevPageArr} onClick={prevPageArr}>
                 <Image src={Prev} alt='preview' />
               </PageBtn>
@@ -93,11 +99,17 @@ const BoardListPresenter:React.FC<IboardListProps> = ({handleInput, bestBoards, 
                 <Image src={Next} alt='next' />
               </PageBtn>
             </li>
+            <li>
+              <PageBtn disabled={!nextPageArr} onClick={changeEndPage}>
+                <Image src={Next} alt='next' />
+                <Image src={Next} alt='next' />
+              </PageBtn>
+            </li>
           </PaginationContainer>
           <CreationBtnWrapper>
             <Button backgroundColor='#fff' color='#333' border='1px solid #F2F2F2'>
-              <Image src={Write} alt='write icon' width={16} height={16} />
-              <span>게시물 등록하기</span>
+              {/* <Image src={Write} alt='write icon' width={16} height={16} /> */}
+              <Text fontSize={'1.4rem'}>게시물 등록하기</Text>
             </Button>
           </CreationBtnWrapper>
         </BoardListSection>

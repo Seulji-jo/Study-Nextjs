@@ -177,7 +177,7 @@ export const PaginationContainer = styled.ul`
   line-height: 12px;
 `
 export const Pagination = styled.ul`
-  padding: 0 28px;
+  padding: 0 20px;
   display: flex;
   color: #4F4F4F;
   & > * {
@@ -193,6 +193,7 @@ export const Pagination = styled.ul`
   }
 `
 export const PageBtn = styled.button`
+  margin: 0 8px;
   background-color: transparent;
   border: none;
 `
