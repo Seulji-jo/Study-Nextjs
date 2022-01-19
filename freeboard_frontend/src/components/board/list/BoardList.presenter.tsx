@@ -14,7 +14,7 @@ import Write from '../../../../assets/img/writeIcon.png'
 import { IboardListProps } from './BoardList.types'
 import dayjs from 'dayjs';
 
-const BoardListPresenter:React.FC<IboardListProps> = ({handleInput, bestBoards, boardLists, pageArr, currPage, changeCurrPage}) => {
+const BoardListPresenter:React.FC<IboardListProps> = ({handleInput, bestBoards, boardLists, pageArr, currPage, changeCurrPage, prevPageArr, nextPageArr}) => {
   return (
     <Main>
       <BoardContainer>
@@ -77,7 +77,7 @@ const BoardListPresenter:React.FC<IboardListProps> = ({handleInput, bestBoards, 
           </BoardListTable>
           <PaginationContainer>
             <li>
-              <PageBtn>
+              <PageBtn disabled={!prevPageArr} onClick={prevPageArr}>
                 <Image src={Prev} alt='preview' />
               </PageBtn>
             </li>
@@ -89,7 +89,7 @@ const BoardListPresenter:React.FC<IboardListProps> = ({handleInput, bestBoards, 
               </Pagination>
             </li>
             <li>
-              <PageBtn>
+              <PageBtn disabled={!nextPageArr} onClick={nextPageArr}>
                 <Image src={Next} alt='next' />
               </PageBtn>
             </li>

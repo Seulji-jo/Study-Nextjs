@@ -10,31 +10,28 @@ const BoardListContainer = () => {
   const [currPage, setCurrPage] = useState(1);
   const [search, setSearch] = useState('');
   const [pageArr, setPageArr] = useState([]);
-  const [currPageArr, setCurrPageArr] = useState(0)
-  const [lastPageArr, setLastPageArr] = useState(0)
+  const [currPageArr, setCurrPageArr] = useState<number>(0)
+  // const [lastPageArr, setLastPageArr] = useState<number>(0)
 
   const {data:bestBoards} = useQuery<Query>(BEST_BOARDS);
   const {data:boardLists} = useQuery<Query, QueryFetchBoardsArgs>(FETCH_BOARDS);
   const {data:boardCount} = useQuery<Query>(BOARDS_COUNT)
-  // const handlePageArr = () => {
-  //   // let countPages = Math.ceil(boardCount?.fetchBoardsCount / 10)
-  //   // const [currPageArr, setCurrPageArr] = useState(0)
-  //   // const [lastPageArr, setLastPageArr] = useState(0)
-  //   // if total 23 -> countPages -> 3 -> setLastPageArr(Math.floor(3/10)) -> if currPageArr <= lastPageArr -> 만약 countPages가 10이하인경우 pageArr에 다 넣어주기 -> [1, 2, 3]
-  //   // if total 3503 -> countPages -> 351 -> setLastPageArr(Math.floor(351/10)) -> 만약 countPages가 10초과인경우 -> [1,2,3,4,5,6,7,8,9,10] -> [1, 2, 3 ... 351]
-  // }
-  useEffect(() => {
+
+  const handlePageArr = () => {
     const countPages = Math.ceil(boardCount?.fetchBoardsCount / 10);
+    // const countPages = 3
     let pages = [];
-    if (countPages <= 10) {
-      for(let i = 1; i <= countPages; i++) {
-        pages = [...pages, i]
-      }
-    } else {
-      pages = [1,2,3,4,5,6,7,8,9,10];
+    let start = currPageArr * 10 + 1; 
+    const remaining = countPages - (currPageArr * 10 + 10);
+    let end = remaining <= 0 ? countPages : countPages - remaining;
+    for (let i = start; i <= end; i++) {
+      pages = [...pages, i]
     }
     setPageArr(pages)
-  }, [boardCount])
+  }
+  useEffect(() => {
+    if (boardCount) handlePageArr()
+  }, [boardCount, currPageArr])
   
   // 배열의 갯수는 전체 페이지 수 / 10 했을 때 나머지
 
@@ -63,8 +60,29 @@ const BoardListContainer = () => {
   
   const debounce = _.debounce(handleInput, 500) // 0.5초동안 아무런 실행이 없으면 실행
   // const debounce = _.debounce((e) => {setInput(~)}, 500)
+
+
+
+  const prevPageArr = () => {
+    if (currPageArr > 0) {
+      setCurrPageArr(currPageArr - 1)
+      setCurrPage(pageArr[0] - 10)
+      return true;
+    } else {
+      return false;
+    }
+  }
+  const nextPageArr = () => {
+    if (pageArr.length === 10) {
+      setCurrPageArr(currPageArr + 1)
+      setCurrPage(pageArr[0] + 10)
+      return true;
+    } else {
+      return false;
+    }
+  }
   
-  return <BoardListPresenter handleInput={debounce} bestBoards={bestBoards?.fetchBoardsOfTheBest} boardLists={boardLists?.fetchBoards} pageArr={pageArr} currPage={currPage} changeCurrPage={changeCurrPage} />
+  return <BoardListPresenter handleInput={debounce} bestBoards={bestBoards?.fetchBoardsOfTheBest} boardLists={boardLists?.fetchBoards} pageArr={pageArr} currPage={currPage} changeCurrPage={changeCurrPage} prevPageArr={prevPageArr} nextPageArr={nextPageArr} />
 }
 
 export default BoardListContainer;

@@ -7,6 +7,8 @@ export interface IboardListProps {
   pageArr: number[];
   currPage: number;
   changeCurrPage: (pageNum: number) => void;
+  prevPageArr: () => boolean;
+  nextPageArr: () => boolean;
 }
 
 export type textProps = {
