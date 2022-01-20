@@ -50,7 +50,7 @@ const BoardListPresenter:React.FC<IboardListProps> = ({bestBoards, boardLists, s
           <SearchContainer>
             <SearchBox>
               <SearchIcon img={Search.src}></SearchIcon>
-              <SearchInput placeholder='제목을 검색해주세요' onChange={handleSearch} name='search' />
+              <SearchInput placeholder='제목을 검색해주세요' defaultValue={searchVal} onChange={handleSearch} />
             </SearchBox>
             <Space className='search-date--wrapper'>
               <RangePicker className='search-date' placeholder={['YYYY. MM.DD', 'YYYY. MM.DD']} format='YYYY. MM.DD' suffixIcon={null} />
@@ -68,7 +68,7 @@ const BoardListPresenter:React.FC<IboardListProps> = ({bestBoards, boardLists, s
             </thead>
             <tbody>
                 {boardLists?.map((list, i) => (<tr key={list._id}>
-                    <TableData>{10 - i}</TableData>
+                    <TableData>{boardLists.length - i}</TableData>
                     <TableData>{list.title}</TableData>
                     <TableData>{list.writer}</TableData>
                     <TableData>{dayjs(list.updatedAt).format('YYYY.MM.DD')}</TableData>
@@ -98,7 +98,7 @@ const BoardListPresenter:React.FC<IboardListProps> = ({bestBoards, boardLists, s
               <PageBtn disabled={!nextPageArr} onClick={nextPageArr}>
                 <Image src={Next} alt='next' />
               </PageBtn>
-            </li>
+            </li>   
             <li>
               <PageBtn disabled={!nextPageArr} onClick={changeEndPage}>
                 <Image src={Next} alt='next' />

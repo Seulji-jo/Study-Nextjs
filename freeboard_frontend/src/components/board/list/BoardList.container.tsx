@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import BoardListPresenter from './BoardList.presenter';
 import _ from 'lodash';
 import { useLazyQuery, useQuery } from '@apollo/client';
@@ -6,18 +6,26 @@ import { Query, QueryFetchBoardsArgs } from '../../../commons/types/generated/ty
 import { BEST_BOARDS, BOARDS_COUNT, FETCH_BOARDS } from './BoardList.queries';
 
 const BoardListContainer = () => {
-  const [input, setInput] = useState({});
   const [currPage, setCurrPage] = useState(1);
   const [search, setSearch] = useState('');
   const [pageArr, setPageArr] = useState([]);
   const [currPageArr, setCurrPageArr] = useState<number>(0)
 
   const {data:bestBoards} = useQuery<Query>(BEST_BOARDS);
-  const [fetchBoards, {data:boardLists}] = useLazyQuery<Query, QueryFetchBoardsArgs>(FETCH_BOARDS);
-  const {data:boardCount} = useQuery<Query>(BOARDS_COUNT)
+  const [fetchBoards, {data:boardLists}] = useLazyQuery<Query, QueryFetchBoardsArgs>(FETCH_BOARDS, {
+    variables: {
+      search:search,
+      page: currPage
+    }
+  });
+  const [countBoards, {data:boardPages}] = useLazyQuery<Query>(BOARDS_COUNT, {
+    variables: {
+      search:search
+    }
+  })
 
   const handlePageArr = () => {
-    const countPages = Math.ceil(boardCount?.fetchBoardsCount / 10);
+    const countPages = Math.ceil(boardPages?.fetchBoardsCount / 10);
     // const countPages = 3
     let pages = [];
     let start = currPageArr * 5 + 1; 
@@ -28,15 +36,35 @@ const BoardListContainer = () => {
     }
     setPageArr(pages)
   }
+  // 페이지 리스트 페이지바뀔때 
   useEffect(() => {
-    if (boardCount) handlePageArr()
-  }, [boardCount, currPageArr])
+    console.log('check');
+    countBoards()
+    handlePageArr()
+  }, [currPageArr])
+
+  // 페이지 리스트 변경될때 페이지의 첫번째 숫자로 설정(n1페이지)
   useEffect(() => {
     setCurrPage(pageArr[0])
   }, [pageArr])
-  // useEffect(() => {
-  //   fetchBoards({variables: {page: currPage}})
-  // }, [boardLists])
+
+  // 서치하면 페이지 제일 처음으로 이동
+  useEffect(() => {
+    setCurrPageArr(0);
+    setCurrPage(1)
+  }, [search])
+
+  // 페이지 로딩시 보드리스트, 총 보드갯수 Fetch
+  useEffect(() => {
+    fetchBoards()
+    countBoards()
+  }, [])
+
+  // countBoards로 보드 총개수를 Fetch해오면 페이지 핸들링 함수 실행
+  useEffect(() => {
+    console.log('check');
+    handlePageArr()
+  }, [boardPages])
   
   // 배열의 갯수는 전체 페이지 수 / 5 했을 때 나머지
 
@@ -56,17 +84,27 @@ const BoardListContainer = () => {
   // 서치에 주로 쓰인다. -> 서버를 계속 호출하지 않기 위해  
 
   const handleSearch = (e:any) => {
-    console.log(e);
+    console.log(e.target.value);
     
+    e.preventDefault();
     setSearch(e.target.value);
+    
   }
+  const debounce = _.debounce((e:any) => {
+    setSearch(e.target.value);
+  }, 500) // 0.5초동안 아무런 실행이 없으면 실행
+  // const debounce = _.debounce((e) => {setInput(~)}, 500)
+    
+  const clickSearchBtn = () => {
+    console.log(search);
+    console.log(currPage);
+  }
+
   const changeCurrPage = (pageNum: number) => {
+    console.log(pageNum);
+    
     setCurrPage(pageNum)
   }
-  
-  const debounce = _.debounce((e) => handleSearch(e), 500) // 0.5초동안 아무런 실행이 없으면 실행
-  // const debounce = _.debounce((e) => {setInput(~)}, 500)
-
   const prevPageArr = () => {
     if (currPageArr > 0) {
       setCurrPageArr(currPageArr - 1)
@@ -89,21 +127,12 @@ const BoardListContainer = () => {
     }
   }
   const changeEndPage = () => {
-    const countPages = Math.ceil(boardCount?.fetchBoardsCount / 10);
+    console.log('end');
+    
+    const countPages = Math.ceil(boardPages?.fetchBoardsCount / 10);
     if (pageArr.length === 5) {
       setCurrPageArr(Math.floor(countPages / 5))
     } 
-  }
-  const clickSearchBtn = () => {
-    console.log(search);
-    console.log(currPage);
-    
-    fetchBoards({
-      variables: {
-        search:search,
-        page: currPage
-      }
-    })
   }
 
   return <BoardListPresenter bestBoards={bestBoards?.fetchBoardsOfTheBest} boardLists={boardLists?.fetchBoards} searchVal={search} handleSearch={debounce} pageArr={pageArr} currPage={currPage} changeCurrPage={changeCurrPage} prevPageArr={prevPageArr} nextPageArr={nextPageArr} changeStartPage={changeStartPage} changeEndPage={changeEndPage} clickSearchBtn={clickSearchBtn} />
