@@ -5,6 +5,7 @@ export interface IboardListProps {
   boardLists: Board[];
   searchVal: string;
   handleSearch: (e: any) => void;
+  handleDate: () => void;
   pageArr: number[];
   currPage: number;
   changeCurrPage: (pageNum: number) => void;
