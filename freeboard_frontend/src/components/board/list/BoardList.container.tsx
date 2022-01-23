@@ -32,7 +32,7 @@ const BoardListContainer = () => {
   const handlePageArr = () => {
     const countPages = Math.ceil(boardPages?.fetchBoardsCount / 10);
     // const countPages = 3
-    let pages = [1];
+    let pages = [];
     let start = currPageArr * 5 + 1; 
     const remaining = countPages - (currPageArr * 5 + 5);
     let end = remaining <= 0 ? countPages : countPages - remaining;
@@ -55,10 +55,10 @@ const BoardListContainer = () => {
   }, [pageArr])
 
   // 서치하면 페이지 제일 처음으로 이동
-  // useEffect(() => {
-  //   setCurrPageArr(0);
-  //   setCurrPage(1)
-  // }, [search])
+  useEffect(() => {
+    setCurrPageArr(0);
+    setCurrPage(1)
+  }, [search])
 
   // 페이지 로딩시 보드리스트, 총 보드갯수 Fetch
   useEffect(() => {
@@ -69,10 +69,10 @@ const BoardListContainer = () => {
   }, [])
 
   // countBoards로 보드 총개수를 Fetch해오면 페이지 핸들링 함수 실행
-  // useEffect(() => {
-  //   console.log('check');
-  //   handlePageArr()
-  // }, [boardPages])
+  useEffect(() => {
+    console.log('check');
+    handlePageArr()
+  }, [boardPages])
   
   // 배열의 갯수는 전체 페이지 수 / 5 했을 때 나머지
 

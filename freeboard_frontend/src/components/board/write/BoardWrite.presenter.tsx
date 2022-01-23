@@ -59,12 +59,14 @@ const BoardWritePresenter:React.FC<IboardWirteProps> = ({handleInput, inputData,
           <RowContainer>
             <ImgUploader>
               {/* {inputData.img1 ? <img src={inputData.img1} alt='img1' /> : <UploadIcon></UploadIcon>} */}
+              {/* new Array는 갤러리 형태일때 편하다.
+              new Array(3 - imgArr.length).fill(1).map() */}
               <UploadImg src={inputData.img1 ?? Icon.src} alt='img1' />
               <ImgInput type="file" accept="image/*" onChange={onChangeImage} name="img1"></ImgInput>
             </ImgUploader>
             <ImgUploader>
               <UploadImg src={inputData.img2 ?? Icon.src} alt='img2' />
-              <ImgInput type="file" accept="image/*" onChange={onChangeImage} name="img2"></ImgInput>
+              <ImgInput type="file" accept="image/*" onChange={onChangeImage} name="img2" multiple></ImgInput>
             </ImgUploader>
             <ImgUploader>
               <UploadImg src={inputData.img3 ?? Icon.src} alt='img3' />

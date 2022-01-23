@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { Mutation, MutationDeleteBoardArgs, MutationDislikeBoardArgs, MutationLikeBoardArgs, Query, QueryFetchBoardArgs } from '../../../commons/types/generated/types';
 import BoardDetailPresenter from "./BoardDetail.presenter";
+import BoardCommentsContainer from "../comments/BoardComments.container";
 import { FETCH_BOARD, LIKE_BOARD, DISLIKE_BOARD, DELETE_BOARD } from './BoardDetail.queries';
 
 const BoardDetailContainer = () => {
@@ -70,7 +71,12 @@ const BoardDetailContainer = () => {
     router.push('/board/list')
   }
 
-  return <BoardDetailPresenter data={data?.fetchBoard} isHover={isHover} handleHover={handleHover} handleLikeBoard={handleLikeBoard} handleDislikeBoard={handleDislikeBoard} handleDeleteBoard={handleDeleteBoard} gotoEditPage={gotoEditPage} gotoListPage={gotoListPage}  />
+  return (
+    <>
+      <BoardDetailPresenter data={data?.fetchBoard} isHover={isHover} handleHover={handleHover} handleLikeBoard={handleLikeBoard} handleDislikeBoard={handleDislikeBoard} handleDeleteBoard={handleDeleteBoard} gotoEditPage={gotoEditPage} gotoListPage={gotoListPage}  />
+      <BoardCommentsContainer />
+    </>
+  )
 }
 
 export default BoardDetailContainer;
