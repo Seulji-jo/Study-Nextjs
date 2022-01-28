@@ -11,7 +11,7 @@ export interface Iinput {
     address?: string,
     addressDetail?: string,
   },
-  images?: string[],
+  images?: any[],
   mainSetting?: string,
   _id?: string
 }
@@ -24,6 +24,7 @@ export interface IboardWirteProps {
   handleComplete: (data: object) => void;
   isModal: boolean;
   submitBoardForm: () => void;
+  imgArr: any[];
   requirements: any;
   data?: Board;
   onChangeImage: (e: any) => void;

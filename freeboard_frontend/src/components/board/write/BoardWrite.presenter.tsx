@@ -6,7 +6,7 @@ import DaumPostcode from 'react-daum-postcode';
 
 import Icon from "../../../../assets/img/uploadIcon.png";
 
-const BoardWritePresenter:React.FC<IboardWirteProps> = ({handleInput, inputData, handleAddressModal, handleComplete, isModal, submitBoardForm, requirements, onChangeImage, isEditPage, cancelToUpdate}) => {
+const BoardWritePresenter:React.FC<IboardWirteProps> = ({handleInput, inputData, handleAddressModal, handleComplete, isModal, submitBoardForm, requirements, imgArr, onChangeImage, isEditPage, cancelToUpdate}) => {
   return (
     <Main>
       {isModal && (<Dim onClick={handleAddressModal}>
@@ -61,17 +61,23 @@ const BoardWritePresenter:React.FC<IboardWirteProps> = ({handleInput, inputData,
               {/* {inputData.img1 ? <img src={inputData.img1} alt='img1' /> : <UploadIcon></UploadIcon>} */}
               {/* new Array는 갤러리 형태일때 편하다.
               new Array(3 - imgArr.length).fill(1).map() */}
-              <UploadImg src={inputData.img1 ?? Icon.src} alt='img1' />
-              <ImgInput type="file" accept="image/*" onChange={onChangeImage} name="img1"></ImgInput>
+              <UploadImg src={imgArr[0] ?? Icon.src} alt='img1' />
+              <ImgInput type="file" accept="image/*" onChange={onChangeImage} name="img1" multiple></ImgInput>
             </ImgUploader>
             <ImgUploader>
-              <UploadImg src={inputData.img2 ?? Icon.src} alt='img2' />
+              <UploadImg src={imgArr[1] ?? Icon.src} alt='img2' />
               <ImgInput type="file" accept="image/*" onChange={onChangeImage} name="img2" multiple></ImgInput>
             </ImgUploader>
             <ImgUploader>
-              <UploadImg src={inputData.img3 ?? Icon.src} alt='img3' />
+              <UploadImg src={imgArr[2] ?? Icon.src} alt='img3' />
+              <ImgInput type="file" accept="image/*" onChange={onChangeImage} name="img3" multiple></ImgInput>
+            </ImgUploader>
+            {inputData.images?.map((img,i) => (
+              <ImgUploader key={i}>
+              <UploadImg src={img ?? Icon.src} alt='img3' />
               <ImgInput type="file" accept="image/*" onChange={onChangeImage} name="img3"></ImgInput>
             </ImgUploader>
+            ))}
           </RowContainer>
         </InputContainer>
         <InputContainer width={'100%'}>

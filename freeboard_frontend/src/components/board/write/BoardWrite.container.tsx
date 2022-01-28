@@ -34,8 +34,6 @@ const BoardWriteContainer = () => {
   const [imgArr, setImgArr] = useState([])
   const [isEditPage, setIsEditPage] = useState(false);
 
-  console.log(router.query.id);
-
   const [createBoard] = useMutation<Mutation, MutationCreateBoardArgs>(CREATE_BOARD)
   const [updateBoard] = useMutation<Mutation, MutationUpdateBoardArgs>(UPDATE_BOARD)
 
@@ -150,34 +148,23 @@ const BoardWriteContainer = () => {
   // 2. 이미지 서버에 넣기 전에 이미지를 '미리보기'기능으로 보여줘야함.
   const onChangeImage = (e: any) => {
     const fileArr = e.target.files;
-    console.log(fileArr);
-
-    // 상태 2개가 필요
-    // 1개는 미리 보여주는 imgArr => 미리보기 용도
-    // 1개는 실제로 뮤테이션에 등록되는 imgArr => 실제 이미지 서버에 등록
     
-    //미리보기
-    let fileURLs = [];
-    // multiple이어서  for문 돌림
-    for (let i = 0; i < fileArr; i++) {
-      // onload가 이미지 미리보기 url을 생성해줌
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        console.log(e);
-        // reader.result = 미리보기 URL
-        fileURLs.push(reader.result)
-        // 미리보기용 State에 넣어줌.
-        setImgArr([...fileURLs])
-      }
-      reader.readAsDataURL(fileArr[i]);
-    }
 
-    // 이미지 서버 등록
-    let arr = [];
-    for (let i = 0; i < fileArr.length; i++) {
-      arr.push(fileArr[i]);
-    }
-    setInput({...input, images: arr})
+    //미리보기
+    let fileURLs = []
+    fileURLs = Array.from(fileArr).map(file => {
+      const reader = new FileReader();
+      // onload가 이미지 미리보기 url을 생성해줌
+      reader.onload = () => {
+        // reader.result = 미리보기 URL
+        fileURLs.push(reader.result);
+      }
+      reader.readAsDataURL(file)
+    })
+
+    // 미리보기용 State에 넣어줌.
+    setImgArr(fileURLs);
+    setInput({...input, images: fileURLs})
   }
 
   const checkRequirements= () => {
@@ -251,7 +238,7 @@ const BoardWriteContainer = () => {
 
   console.log(isEditPage);
   
-  return <BoardWritePresenter handleInput={handleInput} inputData={input} handleAddressModal={handleAddressModal} isModal={isModal} handleComplete={handleComplete} requirements={requirements} submitBoardForm={submitBoardForm} onChangeImage={onChangeImage} isEditPage={isEditPage} cancelToUpdate={cancelToUpdate} />
+  return <BoardWritePresenter handleInput={handleInput} inputData={input} handleAddressModal={handleAddressModal} isModal={isModal} handleComplete={handleComplete} requirements={requirements} submitBoardForm={submitBoardForm} imgArr={imgArr} onChangeImage={onChangeImage} isEditPage={isEditPage} cancelToUpdate={cancelToUpdate} />
 };
 
 export default BoardWriteContainer;
