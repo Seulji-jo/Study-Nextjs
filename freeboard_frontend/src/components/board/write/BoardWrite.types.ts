@@ -27,6 +27,7 @@ export interface IboardWirteProps {
   imgArr: any[];
   requirements: any;
   data?: Board;
+  removeImg: (delImg: string) => void;
   onChangeImage: (e: any) => void;
   isEditPage: boolean;
   cancelToUpdate: () => void;

@@ -122,6 +122,22 @@ export const ImgUploader = styled.label`
   overflow:hidden;
   border: 1px solid #BDBDBD;
   cursor: pointer;
+  &:hover > button{
+    display: block;
+  }
+`
+export const DeleteBtn = styled.button`
+  width: 18px;
+  height: 18px;
+  display: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 10;
+  font-size: 12px;
+  line-height: 1px;
+  color: #fff;
+  background-color: rgba(0,0,0,0.4);
 `
 export const UploadImg = styled.img`
   width: 100%;
@@ -157,7 +173,7 @@ export const ImgInput = styled.input`
   top: 0;
   left: 0;
   
-  visibility: hidden
+  visibility: hidden;
 `
 
 export const TextArea = styled.textarea<TextAreaProps>`

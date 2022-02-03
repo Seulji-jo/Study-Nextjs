@@ -1,12 +1,12 @@
 // presenter는 ui만 그려줌
 
-import { Main, Dim, Close, Modal, BoardContainer, ContentTitle, ContentContainer, RowContainer, RowCenterAlign, InputContainer, InputTitle, Input, ImgUploader, UploadImg, ImgInput, TextArea, Button, RadioContainer, Radio, Warning } from "./BoardWrite.styles";
+import { Main, Dim, Close, Modal, BoardContainer, ContentTitle, ContentContainer, RowContainer, RowCenterAlign, InputContainer, InputTitle, Input, ImgUploader, UploadImg, ImgInput, DeleteBtn, TextArea, Button, RadioContainer, Radio, Warning } from "./BoardWrite.styles";
 import { IboardWirteProps } from "./BoardWrite.types";
 import DaumPostcode from 'react-daum-postcode';
 
 import Icon from "../../../../assets/img/uploadIcon.png";
 
-const BoardWritePresenter:React.FC<IboardWirteProps> = ({handleInput, inputData, handleAddressModal, handleComplete, isModal, submitBoardForm, requirements, imgArr, onChangeImage, isEditPage, cancelToUpdate}) => {
+const BoardWritePresenter:React.FC<IboardWirteProps> = ({handleInput, inputData, handleAddressModal, handleComplete, isModal, submitBoardForm, requirements, imgArr, removeImg, onChangeImage, isEditPage, cancelToUpdate}) => {
   return (
     <Main>
       {isModal && (<Dim onClick={handleAddressModal}>
@@ -57,25 +57,11 @@ const BoardWritePresenter:React.FC<IboardWirteProps> = ({handleInput, inputData,
         <InputContainer width={'100%'}>
           <InputTitle>사진 첨부</InputTitle>
           <RowContainer>
-            {/* <ImgUploader> */}
-              {/* {inputData.img1 ? <img src={inputData.img1} alt='img1' /> : <UploadIcon></UploadIcon>} */}
-              {/* new Array는 갤러리 형태일때 편하다.
-              new Array(3 - imgArr.length).fill(1).map() */}
-              {/* <UploadImg src={imgArr[0] ?? Icon.src} alt='img1' />
-              <ImgInput type="file" accept="image/*" onChange={onChangeImage} name="img1" multiple></ImgInput>
-            </ImgUploader>
-            <ImgUploader>
-              <UploadImg src={imgArr[1] ?? Icon.src} alt='img2' />
-              <ImgInput type="file" accept="image/*" onChange={onChangeImage} name="img2" multiple></ImgInput>
-            </ImgUploader>
-            <ImgUploader>
-              <UploadImg src={imgArr[2] ?? Icon.src} alt='img3' />
-              <ImgInput type="file" accept="image/*" onChange={onChangeImage} name="img3" multiple></ImgInput>
-            </ImgUploader> */}
             {imgArr?.map((img,i) => (
               <ImgUploader key={i}>
                 <UploadImg src={img} alt='img3' />
                 <ImgInput type="file" accept="image/*" onChange={onChangeImage} name="img3 " multiple></ImgInput>
+                <DeleteBtn onClick={() => removeImg(img)}>X</DeleteBtn>
               </ImgUploader>
             ))}
             {new Array(3 - imgArr.length).fill(1).map((img,i) => (

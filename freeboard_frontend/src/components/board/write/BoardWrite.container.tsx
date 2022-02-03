@@ -79,6 +79,11 @@ const BoardWriteContainer = () => {
     setInput({...input, boardAddress: {...input.boardAddress, zipcode: data.zonecode, address: fullAddress} })
   }
 
+  const removeImg = (delImg: string) => {
+    const changeImgs = imgArr.filter(img => img !== delImg);
+    setImgArr(changeImgs)
+  }
+
   const onChangeImage = (e: any) => {
     const fileArr = e.target.files;
     
@@ -189,7 +194,7 @@ const BoardWriteContainer = () => {
     }
   }
 
-  return <BoardWritePresenter handleInput={handleInput} inputData={input} handleAddressModal={handleAddressModal} isModal={isModal} handleComplete={handleComplete} requirements={requirements} submitBoardForm={submitBoardForm} imgArr={imgArr} onChangeImage={onChangeImage} isEditPage={isEditPage} cancelToUpdate={cancelToUpdate} />
+  return <BoardWritePresenter handleInput={handleInput} inputData={input} handleAddressModal={handleAddressModal} isModal={isModal} handleComplete={handleComplete} requirements={requirements} submitBoardForm={submitBoardForm} imgArr={imgArr} removeImg={removeImg} onChangeImage={onChangeImage} isEditPage={isEditPage} cancelToUpdate={cancelToUpdate} />
 };
 
 export default BoardWriteContainer;
