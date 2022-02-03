@@ -57,11 +57,11 @@ const BoardWritePresenter:React.FC<IboardWirteProps> = ({handleInput, inputData,
         <InputContainer width={'100%'}>
           <InputTitle>사진 첨부</InputTitle>
           <RowContainer>
-            <ImgUploader>
+            {/* <ImgUploader> */}
               {/* {inputData.img1 ? <img src={inputData.img1} alt='img1' /> : <UploadIcon></UploadIcon>} */}
               {/* new Array는 갤러리 형태일때 편하다.
               new Array(3 - imgArr.length).fill(1).map() */}
-              <UploadImg src={imgArr[0] ?? Icon.src} alt='img1' />
+              {/* <UploadImg src={imgArr[0] ?? Icon.src} alt='img1' />
               <ImgInput type="file" accept="image/*" onChange={onChangeImage} name="img1" multiple></ImgInput>
             </ImgUploader>
             <ImgUploader>
@@ -71,11 +71,17 @@ const BoardWritePresenter:React.FC<IboardWirteProps> = ({handleInput, inputData,
             <ImgUploader>
               <UploadImg src={imgArr[2] ?? Icon.src} alt='img3' />
               <ImgInput type="file" accept="image/*" onChange={onChangeImage} name="img3" multiple></ImgInput>
-            </ImgUploader>
-            {inputData.images?.map((img,i) => (
+            </ImgUploader> */}
+            {imgArr?.map((img,i) => (
               <ImgUploader key={i}>
-              <UploadImg src={img ?? Icon.src} alt='img3' />
-              <ImgInput type="file" accept="image/*" onChange={onChangeImage} name="img3"></ImgInput>
+                <UploadImg src={img} alt='img3' />
+                <ImgInput type="file" accept="image/*" onChange={onChangeImage} name="img3 " multiple></ImgInput>
+              </ImgUploader>
+            ))}
+            {new Array(3 - imgArr.length).fill(1).map((img,i) => (
+              <ImgUploader key={i}>
+              <UploadImg src={Icon.src} alt='img3' />
+              <ImgInput type="file" accept="image/*" onChange={onChangeImage} name="img3" multiple></ImgInput>
             </ImgUploader>
             ))}
           </RowContainer>

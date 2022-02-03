@@ -2,10 +2,10 @@
 import { useMutation, useQuery } from '@apollo/client';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from "react";
-import { Board, Mutation, MutationCreateBoardArgs, MutationUpdateBoardArgs, Query, QueryFetchBoardArgs } from '../../../commons/types/generated/types';
+import { Board, Mutation, MutationCreateBoardArgs, MutationUpdateBoardArgs, MutationUploadFileArgs, Query, QueryFetchBoardArgs } from '../../../commons/types/generated/types';
 import { FETCH_BOARD } from '../detail/BoardDetail.queries';
 import BoardWritePresenter from "./BoardWrite.presenter";
-import { CREATE_BOARD, UPDATE_BOARD } from './BoardWrite.queries';
+import { CREATE_BOARD, UPDATE_BOARD, UPLOAD_FILE } from './BoardWrite.queries';
 import { Iinput } from './BoardWrite.types';
 
 const BoardWriteContainer = () => {
@@ -36,6 +36,7 @@ const BoardWriteContainer = () => {
 
   const [createBoard] = useMutation<Mutation, MutationCreateBoardArgs>(CREATE_BOARD)
   const [updateBoard] = useMutation<Mutation, MutationUpdateBoardArgs>(UPDATE_BOARD)
+  const [uploadFile] = useMutation<Mutation, MutationUploadFileArgs>(UPLOAD_FILE)
 
   const {data} = useQuery<Query, QueryFetchBoardArgs>(FETCH_BOARD, {
     variables: {
@@ -43,14 +44,6 @@ const BoardWriteContainer = () => {
     }
   });
 
-  // method 1.
-  // useEffect(() => {
-  //   setInput({...input, writer: data?.fetchBoard.writer})
-  // }, [data])
-  // console.log(data?.fetchBoard)
-
-  //method 2.
-  // props로 data 보내기
   useEffect(() => {
     setInput(input => ({...input, ...data?.fetchBoard, boardAddress: {address: data?.fetchBoard.boardAddress.address, addressDetail: data?.fetchBoard.boardAddress.addressDetail, zipcode: data?.fetchBoard.boardAddress.zipcode}}))
     if (data) setIsEditPage(true)
@@ -59,68 +52,14 @@ const BoardWriteContainer = () => {
   const handleInput = (e:any) => {
     if (e.target.name === 'addressDetail') setInput({...input, boardAddress: {...input.boardAddress, addressDetail:e.target.value}});
     else setInput({...input, [e.target.name]:e.target.value});
-    console.log(input)
   }
 
-  const handleCreateBoard = async () => {
-    const { writer, password, title, contents, youtubeUrl, boardAddress } = input
-    try {
-      const {data} = await createBoard({
-        variables: {
-          createBoardInput: {
-            writer,
-            password,
-            title,
-            contents,
-            youtubeUrl,
-            boardAddress
-          }
-        }
-      })//모든 쿼리나 뮤테이션에 들어가는 파라미터는 variables(객체이름)안에 묶여 들어간다
-      console.log(data)
-      router.push(`board/${data.createBoard._id}`)
-    } catch(e) {
-      console.log(e);
-    }
-  }
-  const handleUpdateBoard = async () => {
-    try {
-      const { writer, password, title, contents, youtubeUrl, boardAddress, _id } = input
-      console.log(password);
-      
-      const {data} = await updateBoard({
-        variables: {
-          updateBoardInput: {
-            title,
-            contents,
-            youtubeUrl,
-            boardAddress
-          },
-          password,
-          boardId:_id
-        }
-      })
-      console.log(router.pathname);
-      router.push({
-        pathname: '/board/[id]',
-        query: {...router.query, id: data.updateBoard._id},
-      })
-    } catch (error) {
-      console.log(error);
-    }
-  }
-  const cancelToUpdate = () => {
-    router.back()
-  }
-  // 수정할 때 데이터를 변경하지 않고 수정하는 값
-  // ex) 제목만 수정하고 싶다.
-  // 제목 defaultValue =>
-  // input.writer =>
 
   const handleAddressModal = () => {
     setIsModal(!isModal);
   }
 
+  //* 주소 값 핸들링
   const handleComplete = (data) => {
     let fullAddress = data.address;
     let extraAddress = ''; 
@@ -140,30 +79,22 @@ const BoardWriteContainer = () => {
     setInput({...input, boardAddress: {...input.boardAddress, zipcode: data.zonecode, address: fullAddress} })
   }
 
-  // 이미지 -> 이미지 서버 -> 이미지 서버에 파일을 저장
-  // 이미지 -> db를 따로 관리한다.
-  // boardWrite 저장하는 이미지는 '이미지주소'고, 실제 이미지는 이미지 서버에 저장한다.(AWS)
-  // 1. 바로 이미지 서버에 저장 -> 서버에 무리가 간다.
-  // 게시글 작성중 -> input file 이미지 선택 -> 바로 이미지 서버에 해당이미지가 저장됨 -> input file만 하고 게시글 작성 취소 -> 이래도 이미지 서버에 들어감 -> 이미지 서버에 필요없는 이미지들이 쌓임 -> 실제 이미지 서버에 등록하는 것도 boardWrite함수를 쓸 때 해야한다.
-  // 2. 이미지 서버에 넣기 전에 이미지를 '미리보기'기능으로 보여줘야함.
   const onChangeImage = (e: any) => {
     const fileArr = e.target.files;
     
-
-    //미리보기
     let fileURLs = []
-    fileURLs = Array.from(fileArr).map(file => {
+    for (let i = 0; i < fileArr.length; i++) {
       const reader = new FileReader();
-      // onload가 이미지 미리보기 url을 생성해줌
-      reader.onload = () => {
-        // reader.result = 미리보기 URL
-        fileURLs.push(reader.result);
+      reader.onload = (e) => {
+        // fileURLs.push(reader.result);
+        fileURLs.push(e.target.result);
+        // console.log(e.target.result);
+        // console.log(reader.result);
+        setImgArr([...fileURLs])
       }
-      reader.readAsDataURL(file)
-    })
-
-    // 미리보기용 State에 넣어줌.
-    setImgArr(fileURLs);
+      reader.readAsDataURL(fileArr[i])
+    }
+    
     setInput({...input, images: fileURLs})
   }
 
@@ -191,53 +122,73 @@ const BoardWriteContainer = () => {
     }
   }
 
-  const submitBoardForm = () => {
+  const uploadImgServer = async () => {
+    try {
+      const results = await Promise.all(
+        input.images.map((file) => uploadFile({variables: {file}}))
+      )
+      const images = results.map(res => res.data.uploadFile.url);
+      setInput({...input, images: images})
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const handleCreateBoard = async () => {
+    // const { writer, password, title, contents, youtubeUrl, boardAddress } = input
+    try {
+      const {data} = await createBoard({
+        variables: {
+          createBoardInput: {
+            ...input
+          }
+        }
+      })//모든 쿼리나 뮤테이션에 들어가는 파라미터는 variables(객체이름)안에 묶여 들어간다
+      alert('게시글 등록 성공');
+      router.push(`board/${data.createBoard._id}`)
+    } catch(e) {
+      console.log(e);
+    }
+  }
+  const handleUpdateBoard = async () => {
+    try {
+      const { password, title, contents, youtubeUrl, boardAddress, _id, images } = input
+      console.log(password);
+      
+      const {data} = await updateBoard({
+        variables: {
+          updateBoardInput: {
+            title,
+            contents,
+            youtubeUrl,
+            boardAddress,
+            images
+          },
+          password,
+          boardId:_id
+        }
+      })
+      console.log(router.pathname);
+      router.push({
+        pathname: '/board/[id]',
+        query: {...router.query, id: data.updateBoard._id},
+      })
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  const cancelToUpdate = () => {
+    router.back()
+  }
+
+  const submitBoardForm = async () => {
     if (checkRequirements()) {
+      if (input.images.length) uploadImgServer();
       if (isEditPage) handleUpdateBoard();
       else handleCreateBoard();
     }
-    // 이미지 서버 등록 부분
-    // 프로미스 all map을 통해 구현
-    // const res = await Promise.all(
-    //   input.images.map((file) => uploadFileMutation({variables: {file}}))
-    //   )
-
-    // 프로미스 all(한번에 많은 양의 이미지를 처리할때 사용)은 배열 형태로 넣어줘야한다.
-    // 프로미스 all map 안 쓴 버전
-    // const res2 = await Promise.all(
-    //   uploadFileMutation({variables: {file: input.images[0]}})
-    //   uploadFileMutation({variables: {file: input.images[1]}})
-    //   uploadFileMutation({variables: {file: input.images[2]}})
-    // )
-    
-    // res => 아마존에서 만들어준 URL
-    // 그 URL을 게시글 등록에 넣어줘야한다.
-
-    // let images = [];
-    // for (let i = 0; i < res.length; i++) {
-    //   images.push(res[i].data.uploadFile.url);
-    // }
-
-    // // 게시글 등록 전에 이미지 서버에 먼저 이미지를 저장하고, 아마존에서 주는 URL을 받아와야한다.
-    // try {
-    //   const result = await createBoard({
-    //     variables: {
-    //       createBoardInput: {
-    //         ...input,
-    //         images,
-    //       }
-    //     }
-    //   })
-    //   alert('게시글 등록 성공');
-    //   router.push(`board/${result.data.createBoard._id}`);
-    // } catch(error) {
-    //   alert(error)
-    // }
-
   }
 
-  console.log(isEditPage);
-  
   return <BoardWritePresenter handleInput={handleInput} inputData={input} handleAddressModal={handleAddressModal} isModal={isModal} handleComplete={handleComplete} requirements={requirements} submitBoardForm={submitBoardForm} imgArr={imgArr} onChangeImage={onChangeImage} isEditPage={isEditPage} cancelToUpdate={cancelToUpdate} />
 };
 
