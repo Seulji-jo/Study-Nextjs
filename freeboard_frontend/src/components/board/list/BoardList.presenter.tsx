@@ -14,7 +14,7 @@ import Write from '../../../../assets/img/writeIcon.png'
 import { IboardListProps } from './BoardList.types'
 import dayjs from 'dayjs';
 
-const BoardListPresenter:React.FC<IboardListProps> = ({bestBoards, boardLists, searchVal, handleSearch, handleDate, pageArr, currPage, changeCurrPage, prevPageArr, nextPageArr, changeStartPage, changeEndPage, clickSearchBtn}) => {
+const BoardListPresenter:React.FC<IboardListProps> = ({bestBoards, boardLists, openBoard, searchVal, handleSearch, handleDate, pageArr, currPage, changeCurrPage, prevPageArr, nextPageArr, changeStartPage, changeEndPage, clickSearchBtn}) => {
   return (
     <Main>
       <BoardContainer>
@@ -24,9 +24,9 @@ const BoardListPresenter:React.FC<IboardListProps> = ({bestBoards, boardLists, s
             {bestBoards?.map(board => (
             <BestBoardContainer key={board._id}>
               <BestBoard>
-              <BestBoardImg src={Image1.src} alt='best board image' />
+                <BestBoardImg className='change--page' src={Image1.src} alt='best board image' onClick={() => openBoard(board._id)} />
                 <BestBoardData>
-                  <Text fontSize='16px'>{board.title}</Text>
+                  <Text className='change--page' fontSize='16px' onClick={() => openBoard(board._id)}>{board.title}</Text>
                   <BestBoardUserWrapper>
                     <div>
                       <BbUserInfo>
@@ -69,7 +69,7 @@ const BoardListPresenter:React.FC<IboardListProps> = ({bestBoards, boardLists, s
             <tbody>
                 {boardLists?.map((list, i) => (<tr key={list._id}>
                     <TableData>{boardLists.length - i}</TableData>
-                    <TableData>{list.title}</TableData>
+                    <TableData className='table--title' onClick={() => openBoard(list._id)}>{list.title}</TableData>
                     <TableData>{list.writer}</TableData>
                     <TableData>{dayjs(list.updatedAt).format('YYYY.MM.DD')}</TableData>
                 </tr>))}

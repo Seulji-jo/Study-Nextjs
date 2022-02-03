@@ -45,6 +45,9 @@ export const BestBoard = styled.div`
   background: #FFFFFF;
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
+  .change--page {
+    cursor: pointer;
+  }
 `
 export const BestBoardImg = styled.img`
   width: 100%;
@@ -165,6 +168,9 @@ export const TableData = styled.td`
   padding: 14px 0;
   color: #4F4F4F;
   border-top: 1px solid #bdbdbd;
+  &.table--title {
+    cursor: pointer;
+  }
 `
 export const BoardListFooter = styled.div`
   width: 100%;
