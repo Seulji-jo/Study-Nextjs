@@ -57,7 +57,11 @@ const BoardCommentsContainer = () => {
       console.log(error);
     }
   }
-  return <BoardCommentsPresenter rating={rating} handleSaveRating={handleSaveRating} comment={comment} handleComment={handleComment} submitComment={submitComment} commentLists={commentLists?.fetchBoardComments} />
+
+  const handleModify = () => {
+    setIsModify(!isModify)
+  }
+  return <BoardCommentsPresenter rating={rating} handleSaveRating={handleSaveRating} comment={comment} handleComment={handleComment} submitComment={submitComment} commentLists={commentLists?.fetchBoardComments} handleModify={handleModify} />
 }
 
 export default BoardCommentsContainer;
