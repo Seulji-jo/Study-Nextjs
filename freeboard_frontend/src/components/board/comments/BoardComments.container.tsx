@@ -1,25 +1,45 @@
-import { useMutation } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { Mutation, MutationCreateBoardCommentArgs } from '../../../commons/types/generated/types';
+import { Mutation, MutationCreateBoardCommentArgs, Query, QueryFetchBoardCommentsArgs } from '../../../commons/types/generated/types';
 import BoardCommentsPresenter from './BoardComments.presenter'
-import { CREATE_BOARD_COMMENT } from './BoardComments.queries';
+import { CREATE_BOARD_COMMENT, FETCH_BOARD_COMMENTS } from './BoardComments.queries';
 
 const BoardCommentsContainer = () => {
   const router = useRouter();
   const {id} = router.query
   const [rating, setRating] = useState('0');
-  const [comment, setComment] = useState({writer: '', password: '', contents: ''})
+  const [comment, setComment] = useState({writer: '', password: '', contents: ''});
 
-  const [createBoardComment] = useMutation<Mutation, MutationCreateBoardCommentArgs>(CREATE_BOARD_COMMENT)
+  const [createBoardComment] = useMutation<Mutation, MutationCreateBoardCommentArgs>(CREATE_BOARD_COMMENT);
+  const {data:commentLists} = useQuery<Query>(FETCH_BOARD_COMMENTS, {
+    variables: {
+      page: 1,
+      boardId: String(id)
+    }
+  })
 
   const handleSaveRating = (e: any) => {
     console.log(e.target.id);
     setRating(e.target.id)
   }
 
-  const handleComment = (e: any) => {
-    setComment({...comment, [e.target.name]: e.target.value})
+  const handleComment = ({target}: any) => {
+    // setComment({...comment, [target.name]: target.value})
+    // if (target.name === 'contents') {
+    //   if (comment.contents.length >= 5) {
+    //     const contentsVal = comment.contents.substring(0, 5);
+    //     setComment({...comment, contents: contentsVal})
+    //   }
+    // } 
+    if (target.name === 'contents') {
+      if (comment.contents.length < 100) {
+        setComment({...comment, contents: target.value})
+      }
+    } else {
+      setComment({...comment, [target.name]: target.value})
+    }
+    
   }
   const submitComment = async () => {
     try {
@@ -34,7 +54,7 @@ const BoardCommentsContainer = () => {
       console.log(error);
     }
   }
-  return <BoardCommentsPresenter rating={rating} handleSaveRating={handleSaveRating} handleComment={handleComment} submitComment={submitComment} />
+  return <BoardCommentsPresenter rating={rating} handleSaveRating={handleSaveRating} comment={comment} handleComment={handleComment} submitComment={submitComment} commentLists={commentLists?.fetchBoardComments} />
 }
 
 export default BoardCommentsContainer;
