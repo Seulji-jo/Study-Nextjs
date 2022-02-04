@@ -3,15 +3,18 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { Mutation, MutationCreateBoardCommentArgs, Query, QueryFetchBoardCommentsArgs } from '../../../commons/types/generated/types';
 import BoardCommentsPresenter from './BoardComments.presenter'
-import { CREATE_BOARD_COMMENT, FETCH_BOARD_COMMENTS } from './BoardComments.queries';
+import { CREATE_BOARD_COMMENT, FETCH_BOARD_COMMENTS, UPDATE_BOARD_COMMENT } from './BoardComments.queries';
 
 const BoardCommentsContainer = () => {
   const router = useRouter();
   const {id} = router.query
   const [rating, setRating] = useState('0');
   const [comment, setComment] = useState({writer: '', password: '', contents: ''});
+  const [isModify, setIsModify] = useState(false);
 
   const [createBoardComment] = useMutation<Mutation, MutationCreateBoardCommentArgs>(CREATE_BOARD_COMMENT);
+  const [updateBoardComment] = useMutation<Mutation, MutationCreateBoardCommentArgs>(UPDATE_BOARD_COMMENT);
+  const [deleteBoardComment] = useMutation<Mutation, MutationCreateBoardCommentArgs>(UPDATE_BOARD_COMMENT);
   const {data:commentLists} = useQuery<Query>(FETCH_BOARD_COMMENTS, {
     variables: {
       page: 1,

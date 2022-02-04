@@ -10,7 +10,8 @@ export interface IboardCommentsProps {
   }
   handleComment: (e: any) => void;
   submitComment: () => void;
-  commentLists: any;
+  commentLists: BoardComment[];
+  handleModify: () => void;
 }
 export type CmntContentRowProps = {
   justify?: string;
