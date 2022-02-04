@@ -31,7 +31,7 @@ const BoardListContainer = () => {
     }
   })
 
-  const openBoard = (id: any) => {
+  const openBoard = (id: string) => {
     router.push(`${id}`);
   }
 
@@ -49,14 +49,13 @@ const BoardListContainer = () => {
   }
   // 페이지 리스트 페이지바뀔때 
   useEffect(() => {
-    console.log('change Page');
+    // console.log('change Page');
     countBoards()
     handlePageArr()
   }, [currPageArr])
 
   // 페이지 리스트 변경될때 페이지의 첫번째 숫자로 설정(n1페이지)
   useEffect(() => {
-    console.log('페이지배열변경된후');
     setCurrPage(pageArr[0])
   }, [pageArr])
 
@@ -68,28 +67,17 @@ const BoardListContainer = () => {
 
   // 페이지 로딩시 보드리스트, 총 보드갯수 Fetch
   useEffect(() => {
-    console.log('onload');
-    
     fetchBoards()
     countBoards()
   }, [])
 
   // countBoards로 보드 총개수를 Fetch해오면 페이지 핸들링 함수 실행
   useEffect(() => {
-    console.log('check');
     handlePageArr()
   }, [boardPages])
-  
-  // 배열의 갯수는 전체 페이지 수 / 5 했을 때 나머지
-  // Debounce함수 -> lodash이용
-  // onChange -> 타자 하나하나 입력할때마다 바로바로 실행
-  // -> react 특성상 계속 컨테이너를 업데이트 (상태 변화로 인한 업데이트
-  // debounce -> 마지막 한 번만 함수를 실행하도록 도와줌
-  // 서치에 주로 쓰인다. -> 서버를 계속 호출하지 않기 위해  
 
   const handleSearch = (e:any) => {
-    console.log(e.target.value);
-    
+    // console.log(e.target.value);
     e.preventDefault();
     setSearch(e.target.value); 
   }
@@ -104,13 +92,11 @@ const BoardListContainer = () => {
   }
     
   const clickSearchBtn = () => {
-    console.log(search);
-    console.log(currPage);
+    // console.log(search);
+    // console.log(currPage);
   }
 
   const changeCurrPage = (pageNum: number) => {
-    console.log(pageNum);
-    
     setCurrPage(pageNum)
   }
   const prevPageArr = () => {
@@ -135,8 +121,6 @@ const BoardListContainer = () => {
     }
   }
   const changeEndPage = () => {
-    console.log('end');
-    
     const countPages = Math.ceil(boardPages?.fetchBoardsCount / 10);
     if (pageArr.length === 5) {
       setCurrPageArr(Math.floor(countPages / 5))
