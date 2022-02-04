@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import {Avartar, Text, ButtonProps} from './BoardDetail.types'
 
 export const Main = styled.main`
-  padding: 100px 0;
+  padding: 100px 0 80px;
   display: flex;
   flex-direction: column;
   align-items: center;
