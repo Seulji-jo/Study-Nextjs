@@ -14,6 +14,7 @@ const BoardCommentItem = ({data}: any) => {
   const handleDeleteComment = async() => {
     try {
       const result = await deleteBoardComment({
+        // 삭제할떄 비번창 ui가 없으므로 알아서 처리하기
         variables: {
           password: '',
           boardCommentId: ''
