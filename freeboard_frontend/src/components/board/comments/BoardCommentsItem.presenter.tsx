@@ -13,22 +13,22 @@ const BoardCommentItem = ({data}: any) => {
   //* 댓글삭제
   const handleDeleteComment = async() => {
     try {
-      const result = await deleteBoardComment({
-        // 삭제할떄 비번창 ui가 없으므로 알아서 처리하기
-        variables: {
-          password: '',
-          boardCommentId: ''
-        },
-        // 뮤테이션에서 리페치를 사용하는 방법
-        refetchQueries: [
-          {
-            query: FETCH_BOARD_COMMENTS,
-            variables: {
-              boardId: String(router.query.id)
-            }
-          }
-        ]
-      })
+      // const result = await deleteBoardComment({
+      //   // 삭제할떄 비번창 ui가 없으므로 알아서 처리하기
+      //   variables: {
+      //     password: '',
+      //     boardCommentId: ''
+      //   },
+      //   // 뮤테이션에서 리페치를 사용하는 방법
+      //   refetchQueries: [
+      //     {
+      //       query: FETCH_BOARD_COMMENTS,
+      //       variables: {
+      //         boardId: String(router.query.id)
+      //       }
+      //     }
+      //   ]
+      // })
     } catch (error) {
       console.log(error);
     }
