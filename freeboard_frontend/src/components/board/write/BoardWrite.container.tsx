@@ -99,8 +99,17 @@ const BoardWriteContainer = () => {
       }
       reader.readAsDataURL(fileArr[i])
     }
-    
-    setInput({...input, images: fileURLs})
+
+		//? 이미지 서버 등록
+		let arr = [];
+		for (let i = 0; i < fileArr.length; i++) {
+			arr.push(fileArr[i]);
+		}
+		setInput({
+			...input,
+			images: arr,
+		});
+    // setInput({...input, images: fileURLs})
   }
 
   const checkRequirements= () => {
