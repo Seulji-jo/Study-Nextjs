@@ -10,11 +10,9 @@ const BoardCommentsContainer = () => {
   const {id} = router.query
   const [rating, setRating] = useState('0');
   const [comment, setComment] = useState({writer: '', password: '', contents: ''});
-  const [isModify, setIsModify] = useState(false);
 
   const [createBoardComment] = useMutation<Mutation, MutationCreateBoardCommentArgs>(CREATE_BOARD_COMMENT);
-  const [updateBoardComment] = useMutation<Mutation, MutationCreateBoardCommentArgs>(UPDATE_BOARD_COMMENT);
-  const [deleteBoardComment] = useMutation<Mutation, MutationCreateBoardCommentArgs>(UPDATE_BOARD_COMMENT);
+  
   const {data:commentLists, refetch, fetchMore} = useQuery<Query>(FETCH_BOARD_COMMENTS, {
     variables: {
       page: 0,
@@ -61,23 +59,6 @@ const BoardCommentsContainer = () => {
     }
   }
 
-  const changeModifyStatus = () => {
-    setIsModify(!isModify)
-  }
-  const updateComment = async () => {
-    try {
-      // const {data} = await updateBoardComment({variables: {
-      //   createBoardCommentInput: {
-      //     ...comment, rating: Number(rating)
-      //   },
-      //   boardId: String(id)
-      // }})
-      setIsModify(!isModify)
-      // console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
-  }
   const loadMore = () => {
     // 10개 미만인 경우 쿼리를 돌릴 필요가 없어서 -> 마지막 페이지에서 실행될 필요가 없어서 빈 리턴
     if (commentLists?.fetchBoardComments.length % 10 !== 0) return;
@@ -95,7 +76,7 @@ const BoardCommentsContainer = () => {
       })
     });
   }
-  return <BoardCommentsPresenter rating={rating} handleSaveRating={handleSaveRating} comment={comment} handleComment={handleComment} submitComment={submitComment} commentLists={commentLists?.fetchBoardComments} changeModifyStatus={changeModifyStatus} isModify={isModify} updateComment={updateComment} loadMore={loadMore} />
+  return <BoardCommentsPresenter rating={rating} handleSaveRating={handleSaveRating} comment={comment} handleComment={handleComment} submitComment={submitComment} commentLists={commentLists?.fetchBoardComments}loadMore={loadMore} />
 }
 
 export default BoardCommentsContainer;

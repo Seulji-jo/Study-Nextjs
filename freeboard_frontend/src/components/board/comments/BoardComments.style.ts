@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import {CmntContentRowProps} from './BoardComments.types'
+import {CmntContentRowProps, CmntWriteProps} from './BoardComments.types'
 
 export const CmntTitleWrapper = styled.div`
   padding: 40px 0;
@@ -29,9 +29,9 @@ export const CmntWriteWrapper = styled.div`
   margin: 20px 0;
   border: 1px solid #BDBDBD;
 `
-export const CmntWrite = styled.textarea`
+export const CmntWrite = styled.textarea<CmntWriteProps>`
   width: 100%;
-  height: 108px;
+  height: ${props => props.height ?? '108px'};
   padding: 14px;
   font-size: 12px;
   border: none;
@@ -40,6 +40,7 @@ export const CmntWrite = styled.textarea`
 `
 export const CmntWriteRow = styled.div<CmntContentRowProps>`
   width: 100%;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: ${props => props.justify ?? 'flex-start'}
@@ -60,6 +61,10 @@ export const CmntList = styled.li`
   display: flex;
   align-items: flex-start;
   gap: 16px;
+  border-bottom: 1px solid #BDBDBD;
+`
+export const UpdateCmntList = styled.li`
+  padding-top: 20px;
   border-bottom: 1px solid #BDBDBD;
 `
 export const CmntContent = styled.div`

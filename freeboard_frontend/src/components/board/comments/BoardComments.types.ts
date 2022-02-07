@@ -11,11 +11,19 @@ export interface IboardCommentsProps {
   handleComment: (e: any) => void;
   submitComment: () => void;
   commentLists: BoardComment[];
-  changeModifyStatus: () => void;
-  isModify: boolean;
-  updateComment: () => void;
   loadMore: () => void;
 }
+export interface IupdateCmnt {
+  writer: string;
+  password: string;
+  contents: string;
+  rating: number;
+}
+
 export type CmntContentRowProps = {
   justify?: string;
+}
+
+export type CmntWriteProps = {
+  height?: string;
 }

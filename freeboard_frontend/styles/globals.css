@@ -73,7 +73,7 @@ a {
   text-decoration: none;
 }
 
-button {
+button, .img--button {
 	cursor: pointer;
 }
 

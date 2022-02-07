@@ -1,15 +1,53 @@
 import { useRouter } from 'next/router';
-import { useState } from 'react';
-import { FETCH_BOARD_COMMENTS } from './BoardComments.queries';
+import { useEffect, useState } from 'react';
+import { Row, Button } from '../../../commons/styles'
+import { InputBox, CmntWriteWrapper, CmntWrite, CmntWriteRow, WriteTypeCnt, CmntList, UpdateCmntList, CmntContent, CmntUser, CmntTime, CmntEditWrapper } from './BoardComments.style';
+import { DELETE_BOARD_COMMENT, FETCH_BOARD_COMMENTS, UPDATE_BOARD_COMMENT } from './BoardComments.queries';
+
+import Avatar from '../../../../assets/img/avatar.png'
+import Edit from '../../../../assets/img/modifyIcon.png'
+import Close from '../../../../assets/img/closeIcon.png'
+import Image from 'next/image';
+import dayjs from 'dayjs';
+import { Mutation, MutationCreateBoardCommentArgs } from '../../../commons/types/generated/types';
+import { useMutation } from '@apollo/client';
+import { IupdateCmnt } from './BoardComments.types';
 
 const BoardCommentItem = ({data}: any) => {
   const router = useRouter();
   const [isUpdate, setIsUpdate] = useState(false);
+  const [updateCmnt, setUpdateCmnt] = useState<IupdateCmnt>({writer: '', password: '', contents: '', rating: 0})
 
+  const [updateBoardComment] = useMutation<Mutation, MutationCreateBoardCommentArgs>(UPDATE_BOARD_COMMENT);
+  const [deleteBoardComment] = useMutation<Mutation, MutationCreateBoardCommentArgs>(DELETE_BOARD_COMMENT);
+
+  useEffect(() => {
+    const {writer, contents, rating} = data;
+    setUpdateCmnt({...updateCmnt, writer, contents, rating})
+  }, [])
+
+  console.log(updateCmnt);
+  
   const handleIsUpdate = () => {
     setIsUpdate(!isUpdate);
   }
 
+  const changeCmntVal = () => {}
+
+  const updateComment = async () => {
+    try {
+      // const {data} = await updateBoardComment({variables: {
+      //   createBoardCommentInput: {
+      //     ...comment, rating: Number(rating)
+      //   },
+      //   boardId: String(id)
+      // }})
+      setIsUpdate(!isUpdate)
+      // console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
   //* 댓글삭제
   const handleDeleteComment = async() => {
     try {
@@ -36,26 +74,49 @@ const BoardCommentItem = ({data}: any) => {
   // handleRating도 만들어줘야댐
 
   return (
-    <div onClick={handleIsUpdate}>{isUpdate ? '수정' : data?.writer}</div>
+    // <div onClick={handleIsUpdate}>{isUpdate ? '수정' : data?.writer}</div>
+    <>
+    {isUpdate ? (
+      <UpdateCmntList>
+        <Row marginLeft='20px'>
+          <InputBox placeholder='작성자' value={data.writer} name='writer' />
+          <InputBox placeholder='비밀번호' type='password' />
+          <div>
+            {[1,2,3,4,5].map((num:number) => (
+              <Image key={num} id={String(num)} alt='별점' src={data.rating >= num ? '/star_fill.png' : '/star.png'} width={20} height={20} />
+            ))}
+          </div>
+        </Row>
+        <CmntWriteWrapper>
+          <CmntWrite height='64px' placeholder='개인정보를 공유 및 요청하거나, 명예 훼손, 무단 광고, 불법 정보 유포시 모니터링 후 삭제될 수 있으며, 이에 대한 민형사상 책임은 게시자에게 있습니다.' value={data.contents} name='contents'/>
+          <CmntWriteRow justify='space-between'>
+            <WriteTypeCnt>{data.contents.length ?? '0'}/100</WriteTypeCnt>
+            <Button fontSize="12px" bgColor='#FFD600' color='#333' fontWeight={500} onClick={updateComment}>수정하기</Button>
+          </CmntWriteRow>
+        </CmntWriteWrapper>
+      </UpdateCmntList>
+    ) : (
+      <CmntList>
+        <Image src={Avatar} alt='avatar' width={40} height={40} />
+        <CmntContent>
+          <CmntUser>
+            <div>{data.writer}</div>
+            <div>
+              {[1,2,3,4,5].map((num:number) => (
+                <Image key={num} id={String(num)} alt='별점' src={data.rating >= num ? '/star_fill.png' : '/star.png'} width={20} height={20} />
+              ))}
+            </div>
+          </CmntUser>
+          <div>{data.contents}</div>
+          <CmntTime>{dayjs(data.createdAt).format('YYYY.MM.DD')}</CmntTime>
+        </CmntContent>
+        <CmntEditWrapper>
+          <Image className='img--button' src={Edit} alt='댓글편집' width={18} height={18} onClick={handleIsUpdate} />
+          <Image className='img--button' src={Close} alt='댓글편집' width={14} height={14} />
+        </CmntEditWrapper>
+      </CmntList>
+    )}
+    </>
   )
 }
-{/* <CmntList key={list._id}>
-              <Image src={Avatar} alt='avatar' width={40} height={40} />
-              <CmntContent>
-                <CmntUser>
-                  <div>{list.writer}</div>
-                  <div>
-                    {[1,2,3,4,5].map((data:number) => (
-                      <Image key={data} id={String(data)} alt='별점' src={Number(list.rating) >= data ? '/star_fill.png' : '/star.png'} width={20} height={20} />
-                    ))}
-                  </div>
-                </CmntUser>
-                <div>{list.contents}</div>
-                <CmntTime>{dayjs(list.createdAt).format('YYYY.MM.DD')}</CmntTime>
-              </CmntContent>
-              <CmntEditWrapper>
-                <Image src={Edit} alt='댓글편집' width={18} height={18} onClick={changeModifyStatus} />
-                <Image src={Close} alt='댓글편집' width={14} height={14} />
-              </CmntEditWrapper>
-            </CmntList> */}
 export default BoardCommentItem;
