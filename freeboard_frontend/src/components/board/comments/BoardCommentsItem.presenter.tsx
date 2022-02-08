@@ -3,20 +3,24 @@ import { useEffect, useState } from 'react';
 import { Row, Button } from '../../../commons/styles'
 import { InputBox, CmntWriteWrapper, CmntWrite, CmntWriteRow, WriteTypeCnt, CmntList, UpdateCmntList, CmntContent, CmntUser, CmntTime, CmntEditWrapper } from './BoardComments.style';
 import { DELETE_BOARD_COMMENT, FETCH_BOARD_COMMENTS, UPDATE_BOARD_COMMENT } from './BoardComments.queries';
+import { Mutation, MutationCreateBoardCommentArgs, MutationDeleteBoardCommentArgs, MutationUpdateBoardCommentArgs } from '../../../commons/types/generated/types';
+import { useMutation } from '@apollo/client';
+import { IupdateCmnt } from './BoardComments.types';
+import { Modal } from 'antd';
+import 'antd/dist/antd.css';
 
 import Avatar from '../../../../assets/img/avatar.png'
 import Edit from '../../../../assets/img/modifyIcon.png'
 import Close from '../../../../assets/img/closeIcon.png'
 import Image from 'next/image';
 import dayjs from 'dayjs';
-import { Mutation, MutationCreateBoardCommentArgs, MutationDeleteBoardCommentArgs, MutationUpdateBoardCommentArgs } from '../../../commons/types/generated/types';
-import { useMutation } from '@apollo/client';
-import { IupdateCmnt } from './BoardComments.types';
 
 const BoardCommentItem = ({data}: any) => {
   const router = useRouter();
   const [isUpdate, setIsUpdate] = useState(false);
-  const [updateCmnt, setUpdateCmnt] = useState<IupdateCmnt>({password: '', contents: '', rating: 0})
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [updateCmnt, setUpdateCmnt] = useState<IupdateCmnt>({password: '', contents: '', rating: 0});
+  const [password, setPassword] = useState('')
 
   const [updateBoardComment] = useMutation<Mutation, MutationUpdateBoardCommentArgs>(UPDATE_BOARD_COMMENT);
   const [deleteBoardComment] = useMutation<Mutation, MutationDeleteBoardCommentArgs>(DELETE_BOARD_COMMENT);
@@ -31,17 +35,25 @@ const BoardCommentItem = ({data}: any) => {
   const handleIsUpdate = () => {
     setIsUpdate(!isUpdate);
   }
+  const handleModal = () => {
+    setIsModalVisible(!isModalVisible)
+    setPassword('')
+  }
 
   const changeCmntVal = ({target}: any) => {
     if (target.alt === '별점') setUpdateCmnt({...updateCmnt, rating: Number(target.id)})
     else setUpdateCmnt({...updateCmnt, [target.name]: target.value})
   }
+  const handlePassword = ({target}: any) => {
+    setPassword(target.value);
+  }
+  
 
   const updateComment = async () => {
     try {
       const {_id} = data;
       const {password, contents, rating} = updateCmnt
-      const result = await updateBoardComment({
+      await updateBoardComment({
         variables: {
         updateBoardCommentInput: {
           contents, rating
@@ -64,32 +76,36 @@ const BoardCommentItem = ({data}: any) => {
     }
   }
   //* 댓글삭제
-  const handleDeleteComment = async() => {
+  const deleteComment = async() => {
     try {
-      // const result = await deleteBoardComment({
-      //   // 삭제할떄 비번창 ui가 없으므로 알아서 처리하기
-      //   variables: {
-      //     password: '',
-      //     boardCommentId: ''
-      //   },
-      //   // 뮤테이션에서 리페치를 사용하는 방법
-      //   refetchQueries: [
-      //     {
-      //       query: FETCH_BOARD_COMMENTS,
-      //       variables: {
-      //         boardId: String(router.query.id)
-      //       }
-      //     }
-      //   ]
-      // })
+      const {_id} = data;
+      await deleteBoardComment({
+        variables: {
+          password,
+          boardCommentId: _id
+        },
+        refetchQueries: [
+          {
+            query: FETCH_BOARD_COMMENTS,
+            variables: {
+              boardId: String(router.query.id)
+            }
+          }
+        ]
+      })
+      setIsModalVisible(false)
+      setPassword('')
     } catch (error) {
       console.log(error);
     }
   }
-  // handleRating도 만들어줘야댐
 
   return (
     <>
+    <Modal title="삭제" visible={isModalVisible} onOk={deleteComment} onCancel={handleModal} width={300}>
+      <p>해당 댓글을 삭제하고 싶으신 경우<br /> 댓글 비밀번호를 입력하세요.</p>
+      <InputBox placeholder='비밀번호' onChange={handlePassword} value={password} type='password' />
+    </Modal>
     {isUpdate ? (
       <UpdateCmntList>
         <Row marginLeft='20px'>
@@ -126,7 +142,7 @@ const BoardCommentItem = ({data}: any) => {
         </CmntContent>
         <CmntEditWrapper>
           <Image className='img--button' src={Edit} alt='댓글편집' width={18} height={18} onClick={handleIsUpdate} />
-          <Image className='img--button' src={Close} alt='댓글편집' width={14} height={14} />
+          <Image className='img--button' src={Close} alt='댓글편집' width={14} height={14} onClick={handleModal} />
         </CmntEditWrapper>
       </CmntList>
     )}
