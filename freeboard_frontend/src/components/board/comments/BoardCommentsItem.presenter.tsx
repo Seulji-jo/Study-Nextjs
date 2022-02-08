@@ -9,41 +9,56 @@ import Edit from '../../../../assets/img/modifyIcon.png'
 import Close from '../../../../assets/img/closeIcon.png'
 import Image from 'next/image';
 import dayjs from 'dayjs';
-import { Mutation, MutationCreateBoardCommentArgs } from '../../../commons/types/generated/types';
+import { Mutation, MutationCreateBoardCommentArgs, MutationDeleteBoardCommentArgs, MutationUpdateBoardCommentArgs } from '../../../commons/types/generated/types';
 import { useMutation } from '@apollo/client';
 import { IupdateCmnt } from './BoardComments.types';
 
 const BoardCommentItem = ({data}: any) => {
   const router = useRouter();
   const [isUpdate, setIsUpdate] = useState(false);
-  const [updateCmnt, setUpdateCmnt] = useState<IupdateCmnt>({writer: '', password: '', contents: '', rating: 0})
+  const [updateCmnt, setUpdateCmnt] = useState<IupdateCmnt>({password: '', contents: '', rating: 0})
 
-  const [updateBoardComment] = useMutation<Mutation, MutationCreateBoardCommentArgs>(UPDATE_BOARD_COMMENT);
-  const [deleteBoardComment] = useMutation<Mutation, MutationCreateBoardCommentArgs>(DELETE_BOARD_COMMENT);
+  const [updateBoardComment] = useMutation<Mutation, MutationUpdateBoardCommentArgs>(UPDATE_BOARD_COMMENT);
+  const [deleteBoardComment] = useMutation<Mutation, MutationDeleteBoardCommentArgs>(DELETE_BOARD_COMMENT);
 
   useEffect(() => {
-    const {writer, contents, rating} = data;
-    setUpdateCmnt({...updateCmnt, writer, contents, rating})
-  }, [])
+    if (isUpdate) {
+      const {contents, rating} = data;
+      setUpdateCmnt(cmntData => ({...cmntData, contents, rating}))
+    }
+  }, [isUpdate, data])
 
-  console.log(updateCmnt);
-  
   const handleIsUpdate = () => {
     setIsUpdate(!isUpdate);
   }
 
-  const changeCmntVal = () => {}
+  const changeCmntVal = ({target}: any) => {
+    if (target.alt === '별점') setUpdateCmnt({...updateCmnt, rating: Number(target.id)})
+    else setUpdateCmnt({...updateCmnt, [target.name]: target.value})
+  }
 
   const updateComment = async () => {
     try {
-      // const {data} = await updateBoardComment({variables: {
-      //   createBoardCommentInput: {
-      //     ...comment, rating: Number(rating)
-      //   },
-      //   boardId: String(id)
-      // }})
+      const {_id} = data;
+      const {password, contents, rating} = updateCmnt
+      const result = await updateBoardComment({
+        variables: {
+        updateBoardCommentInput: {
+          contents, rating
+        },
+        password,
+        boardCommentId: String(_id)
+        },
+        refetchQueries: [
+          {
+            query: FETCH_BOARD_COMMENTS,
+            variables: {
+              boardId: String(router.query.id)
+            }
+          }
+        ]
+      })
       setIsUpdate(!isUpdate)
-      // console.log(data);
     } catch (error) {
       console.log(error);
     }
@@ -74,21 +89,20 @@ const BoardCommentItem = ({data}: any) => {
   // handleRating도 만들어줘야댐
 
   return (
-    // <div onClick={handleIsUpdate}>{isUpdate ? '수정' : data?.writer}</div>
     <>
     {isUpdate ? (
       <UpdateCmntList>
         <Row marginLeft='20px'>
-          <InputBox placeholder='작성자' value={data.writer} name='writer' />
-          <InputBox placeholder='비밀번호' type='password' />
+          <InputBox placeholder='작성자' value={data.writer} disabled />
+          <InputBox placeholder='비밀번호' onChange={changeCmntVal} type='password' name='password' />
           <div>
             {[1,2,3,4,5].map((num:number) => (
-              <Image key={num} id={String(num)} alt='별점' src={data.rating >= num ? '/star_fill.png' : '/star.png'} width={20} height={20} />
+              <Image key={num} id={String(num)} alt='별점' src={updateCmnt.rating >= num ? '/star_fill.png' : '/star.png'} width={20} height={20} onClick={changeCmntVal} />
             ))}
           </div>
         </Row>
         <CmntWriteWrapper>
-          <CmntWrite height='64px' placeholder='개인정보를 공유 및 요청하거나, 명예 훼손, 무단 광고, 불법 정보 유포시 모니터링 후 삭제될 수 있으며, 이에 대한 민형사상 책임은 게시자에게 있습니다.' value={data.contents} name='contents'/>
+          <CmntWrite height='64px' placeholder='개인정보를 공유 및 요청하거나, 명예 훼손, 무단 광고, 불법 정보 유포시 모니터링 후 삭제될 수 있으며, 이에 대한 민형사상 책임은 게시자에게 있습니다.' defaultValue={updateCmnt.contents} onChange={changeCmntVal} name='contents'/>
           <CmntWriteRow justify='space-between'>
             <WriteTypeCnt>{data.contents.length ?? '0'}/100</WriteTypeCnt>
             <Button fontSize="12px" bgColor='#FFD600' color='#333' fontWeight={500} onClick={updateComment}>수정하기</Button>

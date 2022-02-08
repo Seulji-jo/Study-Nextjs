@@ -32,6 +32,7 @@ export const CmntWriteWrapper = styled.div`
 export const CmntWrite = styled.textarea<CmntWriteProps>`
   width: 100%;
   height: ${props => props.height ?? '108px'};
+  display: block;
   padding: 14px;
   font-size: 12px;
   border: none;
@@ -40,7 +41,6 @@ export const CmntWrite = styled.textarea<CmntWriteProps>`
 `
 export const CmntWriteRow = styled.div<CmntContentRowProps>`
   width: 100%;
-  height: 40px;
   display: flex;
   align-items: center;
   justify-content: ${props => props.justify ?? 'flex-start'}

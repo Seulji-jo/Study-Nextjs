@@ -14,7 +14,6 @@ export interface IboardCommentsProps {
   loadMore: () => void;
 }
 export interface IupdateCmnt {
-  writer: string;
   password: string;
   contents: string;
   rating: number;
