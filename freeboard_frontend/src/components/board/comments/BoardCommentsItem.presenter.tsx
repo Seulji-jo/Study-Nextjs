@@ -35,9 +35,15 @@ const BoardCommentItem = ({data}: any) => {
   const handleIsUpdate = () => {
     setIsUpdate(!isUpdate);
   }
-  const handleModal = () => {
-    setIsModalVisible(!isModalVisible)
-    setPassword('')
+  const handleModal = (e:any) => {
+    // console.log(e.target);
+    // console.log(e.currentTarget);
+    
+    const clickedModal = e.target.closest('.modal');
+    if (!clickedModal){
+      setIsModalVisible(!isModalVisible)
+      setPassword('')
+    }
   }
 
   const changeCmntVal = ({target}: any) => {
@@ -104,7 +110,7 @@ const BoardCommentItem = ({data}: any) => {
     <>
     {isModalVisible && (
       <ModalDim onClick={handleModal}>
-        <Modal>
+        <Modal className='modal'>
           <ModalHeader>
             <p>삭제</p>
             <CloseBtn onClick={handleModal}>&times;</CloseBtn>
