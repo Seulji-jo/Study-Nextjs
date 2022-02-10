@@ -1,13 +1,13 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { Row, Button } from '../../../commons/styles'
-import { InputBox, CmntWriteWrapper, CmntWrite, CmntWriteRow, WriteTypeCnt, CmntList, UpdateCmntList, CmntContent, CmntUser, CmntTime, CmntEditWrapper } from './BoardComments.style';
+import { InputBox, CmntWriteWrapper, CmntWrite, CmntWriteRow, WriteTypeCnt, CmntList, UpdateCmntList, CmntContent, CmntUser, CmntTime, CmntEditWrapper, ModalDim, Modal, ModalHeader, CloseBtn, ModalMain, ModalFooter } from './BoardComments.style';
 import { DELETE_BOARD_COMMENT, FETCH_BOARD_COMMENTS, UPDATE_BOARD_COMMENT } from './BoardComments.queries';
 import { Mutation, MutationCreateBoardCommentArgs, MutationDeleteBoardCommentArgs, MutationUpdateBoardCommentArgs } from '../../../commons/types/generated/types';
 import { useMutation } from '@apollo/client';
 import { IupdateCmnt } from './BoardComments.types';
-import { Modal } from 'antd';
-import 'antd/dist/antd.css';
+// import { Modal } from 'antd';
+// import 'antd/dist/antd.css';
 
 import Avatar from '../../../../assets/img/avatar.png'
 import Edit from '../../../../assets/img/modifyIcon.png'
@@ -96,16 +96,30 @@ const BoardCommentItem = ({data}: any) => {
       setIsModalVisible(false)
       setPassword('')
     } catch (error) {
-      console.log(error);
+      alert(error)
     }
   }
 
   return (
     <>
-    <Modal title="삭제" visible={isModalVisible} onOk={deleteComment} onCancel={handleModal} width={300}>
-      <p>해당 댓글을 삭제하고 싶으신 경우<br /> 댓글 비밀번호를 입력하세요.</p>
-      <InputBox placeholder='비밀번호' onChange={handlePassword} value={password} type='password' />
-    </Modal>
+    {isModalVisible && (
+      <ModalDim onClick={handleModal}>
+        <Modal>
+          <ModalHeader>
+            <p>삭제</p>
+            <CloseBtn onClick={handleModal}>&times;</CloseBtn>
+          </ModalHeader>
+          <ModalMain>
+            <p>해당 댓글을 삭제하고 싶으신 경우 댓글 비밀번호를 입력하세요.</p>
+            <InputBox placeholder='비밀번호' onChange={handlePassword} value={password} type='password' />
+          </ModalMain>
+          <ModalFooter>
+            <Button fontSize="12px" bgColor='#BDBDBD' color='#333' fontWeight={500} onClick={handleModal}>취소</Button>
+            <Button fontSize="12px" bgColor='#333' color='#fff' fontWeight={500} onClick={deleteComment}>삭제</Button>
+          </ModalFooter>
+        </Modal>
+      </ModalDim>
+    )}
     {isUpdate ? (
       <UpdateCmntList>
         <Row marginLeft='20px'>

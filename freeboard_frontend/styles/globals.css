@@ -75,6 +75,7 @@ a {
 
 button, .img--button {
 	cursor: pointer;
+	background-color: transparent;
 }
 
 label {
