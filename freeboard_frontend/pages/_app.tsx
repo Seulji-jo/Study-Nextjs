@@ -1,6 +1,7 @@
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client'
 import '../styles/globals.css'
 import GlobalStyles from '../src/commons/styles/globalStyles'
+import Layout from '../src/commons/layout'
 
 function MyApp({ Component, pageProps }) {
 
@@ -13,8 +14,10 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <ApolloProvider client={client}>
+      <Layout>
       <GlobalStyles />
       <Component {...pageProps} />
+      </Layout>
     </ApolloProvider>
   )
 }
