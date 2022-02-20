@@ -15,7 +15,7 @@ import Close from '../../../../assets/img/closeIcon.png'
 import Image from 'next/image';
 import dayjs from 'dayjs';
 
-const BoardCommentItem = ({data}: any) => {
+const BoardCommentItem = ({data, refetch}: any) => {
   const router = useRouter();
   const [isUpdate, setIsUpdate] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -90,15 +90,9 @@ const BoardCommentItem = ({data}: any) => {
           password,
           boardCommentId: _id
         },
-        refetchQueries: [
-          {
-            query: FETCH_BOARD_COMMENTS,
-            variables: {
-              boardId: String(router.query.id)
-            }
-          }
-        ]
       })
+      // refetchQuery가 안되서 props로 refetch 받아서 처리
+      refetch();
       setIsModalVisible(false)
       setPassword('')
     } catch (error) {
