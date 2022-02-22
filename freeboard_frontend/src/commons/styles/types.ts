@@ -8,5 +8,6 @@ export type ButtonProps = {
   bgColor?: string;
   color?: string;
   border?: string;
+  radius?: string;
   fontWeight?: number;
 }

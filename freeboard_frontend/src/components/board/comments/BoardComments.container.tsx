@@ -76,7 +76,7 @@ const BoardCommentsContainer = () => {
       })
     });
   }
-  return <BoardCommentsPresenter rating={rating} handleSaveRating={handleSaveRating} comment={comment} handleComment={handleComment} submitComment={submitComment} commentLists={commentLists?.fetchBoardComments}loadMore={loadMore} />
+  return <BoardCommentsPresenter rating={rating} handleSaveRating={handleSaveRating} comment={comment} handleComment={handleComment} submitComment={submitComment} commentLists={commentLists?.fetchBoardComments}loadMore={loadMore} refetch={refetch} />
 }
 
 export default BoardCommentsContainer;

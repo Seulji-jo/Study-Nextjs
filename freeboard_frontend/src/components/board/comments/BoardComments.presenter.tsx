@@ -7,7 +7,7 @@ import { IboardCommentsProps } from './BoardComments.types';
 import BoardCommentItem from './BoardCommentsItem.presenter';
 import InfiniteScroll from 'react-infinite-scroller';
 
-const BoardCommentsPresenter:React.FC<IboardCommentsProps> = ({rating, handleSaveRating, comment, handleComment, submitComment, commentLists, loadMore}) => {
+const BoardCommentsPresenter:React.FC<IboardCommentsProps> = ({rating, handleSaveRating, comment, handleComment, submitComment, commentLists, loadMore, refetch}) => {
   return (
     <Main>
       <BoardContainer>
@@ -36,7 +36,7 @@ const BoardCommentsPresenter:React.FC<IboardCommentsProps> = ({rating, handleSav
           {commentLists && (
             <InfiniteScroll loadMore={loadMore} hasMore={true}>
               {commentLists?.map((list) => (
-                <BoardCommentItem key={list._id} data={list} />
+                <BoardCommentItem key={list._id} data={list} refetch={refetch} />
               ))}
             </InfiniteScroll>
           )}

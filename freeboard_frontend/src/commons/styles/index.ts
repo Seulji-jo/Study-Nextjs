@@ -34,5 +34,6 @@ export const Button = styled.button<ButtonProps>`
   background-color: ${props => props.bgColor ?? '#333'};
   color: ${props => props.color ?? '#fff'};
   border: ${props => props.border ?? 'none'};
+  border-radius: ${props => props.radius ?? '0'};
   font-weight: ${props => props.fontWeight ?? 400};
 `

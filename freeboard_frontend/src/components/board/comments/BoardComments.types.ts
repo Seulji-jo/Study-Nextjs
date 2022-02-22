@@ -12,6 +12,7 @@ export interface IboardCommentsProps {
   submitComment: () => void;
   commentLists: BoardComment[];
   loadMore: () => void;
+  refetch: any;
 }
 export interface IupdateCmnt {
   password: string;
