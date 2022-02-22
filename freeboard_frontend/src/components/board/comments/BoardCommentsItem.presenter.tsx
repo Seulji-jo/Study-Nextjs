@@ -85,7 +85,8 @@ const BoardCommentItem = ({data}: any) => {
   const deleteComment = async() => {
     try {
       const {_id} = data;
-      await deleteBoardComment({
+      const deleteCmnt = await deleteBoardComment({
+        // update(cache, { data: { updateBoardComment } }) {},
         variables: {
           password,
           boardCommentId: _id
@@ -97,10 +98,12 @@ const BoardCommentItem = ({data}: any) => {
               boardId: String(router.query.id)
             }
           }
-        ]
+        ],
       })
       setIsModalVisible(false)
       setPassword('')
+      console.log(deleteCmnt);
+      
     } catch (error) {
       alert(error)
     }
