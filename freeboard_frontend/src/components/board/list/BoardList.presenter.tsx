@@ -13,6 +13,7 @@ import Next from '../../../../assets/img/next.png'
 import Write from '../../../../assets/img/writeIcon.png'
 import { IboardListProps } from './BoardList.types'
 import dayjs from 'dayjs';
+import Link from 'next/link';
 
 const BoardListPresenter:React.FC<IboardListProps> = ({bestBoards, boardLists, openBoard, searchVal, handleSearch, handleDate, pageArr, currPage, changeCurrPage, prevPageArr, nextPageArr, changeStartPage, changeEndPage, clickSearchBtn}) => {
   return (
@@ -109,7 +110,7 @@ const BoardListPresenter:React.FC<IboardListProps> = ({bestBoards, boardLists, o
           <CreationBtnWrapper>
             <Button backgroundColor='#fff' color='#333' border='1px solid #F2F2F2'>
               {/* <Image src={Write} alt='write icon' width={16} height={16} /> */}
-              <Text fontSize={'1.4rem'}>게시물 등록하기</Text>
+              <Text fontSize={'1.4rem'}><Link href='/board'>게시물 등록하기</Link></Text>
             </Button>
           </CreationBtnWrapper>
         </BoardListSection>
