@@ -7,6 +7,12 @@ const reset = css`
     padding: 0px;
     font-family: 'Noto Sans Kr, Roboto, OpenSans';
   }
+  a {
+    color: #333;
+    &:hover {
+      color: #333;
+    }
+  }
 `
 
 const GlobalStyles = () => {

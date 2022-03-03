@@ -3,6 +3,7 @@ export type RowProps = {
 }
 
 export type ButtonProps = {
+  width?: string;
   padding?: string;
   fontSize?: string;
   bgColor?: string;
@@ -10,4 +11,10 @@ export type ButtonProps = {
   border?: string;
   radius?: string;
   fontWeight?: number;
+}
+
+export type textProps = {
+  fontSize?: string;
+  fontWeight?: string;
+  color?: string;
 }
