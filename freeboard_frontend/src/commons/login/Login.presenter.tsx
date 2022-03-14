@@ -17,7 +17,7 @@ const LoginPresenter:React.FC<Ilogin> = ({isChecked, handleCheckbox}) => {
         <Input placeholder='이메일을 입력해주세요.'></Input>
         <Input placeholder='비밀번호를 입력해주세요.'></Input>
         <Label>
-          <CheckboxContainer onClick={handleCheckbox}>
+          <CheckboxContainer onChange={handleCheckbox}>
             <HiddenCheckbox type={'checkbox'} />
             <StyledCheckbox isChecked={isChecked}>
               <Icon viewBox="0 0 24 24">
