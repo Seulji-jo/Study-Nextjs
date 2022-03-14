@@ -12,8 +12,7 @@ const SignupPresenter:React.FC<Isignup> = ({closePage}) => {
   const schema = yup.object({
     email: yup.string().required('이메일은 필수 입력입니다!').email('이메일 형식을 지켜주세요!'),
     name: yup.string().required('이름은 필수 입력입니다!').min(5, '이름은 5자 이상 작성해주세요.'),
-    password: yup.string().required('비밀번호는 필수 입력입니다.'),
-    // password: yup.string().matches(정규표현식,'error msg'),
+    password: yup.string().required('비밀번호는 필수 입력입니다.').matches(/(?=.*\d)(?=.*[a-z]).{8,}/, '비밀번호는 영어 소문자, 숫자 포함 8자 이상이 되어야합니다.'),
     oneOf : yup.string().required('비밀번호는 필수 입력입니다.')
   });
 
@@ -39,22 +38,22 @@ const SignupPresenter:React.FC<Isignup> = ({closePage}) => {
           <InputContainer>
             <Text fontSize='14px' color='#fff'>이메일</Text>
             <Input type="text" {...register('email')} />
-            {errors?.email?.message&& <ErrorMsg>{errors?.email?.message}</ErrorMsg>}
+            {errors?.email?.message && <ErrorMsg>{errors?.email?.message}</ErrorMsg>}
           </InputContainer>
           <InputContainer>
             <Text fontSize='14px' color='#fff'>이름</Text>
             <Input type="text" {...register('name')} />
-            {errors?.name?.message&& <ErrorMsg>{errors?.name?.message}</ErrorMsg>}
+            {errors?.name?.message && <ErrorMsg>{errors?.name?.message}</ErrorMsg>}
           </InputContainer>
           <InputContainer>
             <Text fontSize='14px' color='#fff'>비밀번호</Text>
             <Input type="text" {...register('password')} />
-            {errors?.password?.message&& <ErrorMsg>{errors?.password?.message}</ErrorMsg>}
+            {errors?.password?.message && <ErrorMsg>{errors?.password?.message}</ErrorMsg>}
           </InputContainer>
           <InputContainer>
             <Text fontSize='14px' color='#fff'>비밀번호 확인</Text>
             <Input type="text" {...register('oneOf')} />
-            {errors?.oneOf?.message&& <ErrorMsg>{errors?.oneOf?.message}</ErrorMsg>}
+            {errors?.oneOf?.message && <ErrorMsg>{errors?.oneOf?.message}</ErrorMsg>}
           </InputContainer>
           <Button type='submit' width='100%' radius='8px' bgColor='#4f4f4f' color='#bdbdbd' fontWeight={700} padding='14px'>회원가입하기</Button>
         </Form>
