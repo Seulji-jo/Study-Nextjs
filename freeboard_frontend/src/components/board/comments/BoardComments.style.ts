@@ -125,6 +125,7 @@ export const Modal = styled.section`
   border-radius: 0.3rem;
   background-color: #fff;
   overflow: hidden;
+  
 `
 export const ModalHeader = styled.header`
   padding: 16px 24px;

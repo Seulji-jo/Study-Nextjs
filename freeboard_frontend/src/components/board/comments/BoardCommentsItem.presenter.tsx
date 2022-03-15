@@ -35,14 +35,15 @@ const BoardCommentItem = ({data, refetch}: any) => {
   const handleIsUpdate = () => {
     setIsUpdate(!isUpdate);
   }
+  const closeModal = () => {
+    setIsModalVisible(!isModalVisible)
+    setPassword('')
+  }
   const handleModal = (e:any) => {
-    // console.log(e.target);
-    // console.log(e.currentTarget);
-    
     const clickedModal = e.target.closest('.modal');
+    
     if (!clickedModal){
-      setIsModalVisible(!isModalVisible)
-      setPassword('')
+      closeModal();
     }
   }
 
@@ -109,15 +110,15 @@ const BoardCommentItem = ({data, refetch}: any) => {
       <ModalDim onClick={handleModal}>
         <Modal className='modal'>
           <ModalHeader>
-            <p>삭제</p>
-            <CloseBtn onClick={handleModal}>&times;</CloseBtn>
+            <div>삭제</div>
+            <CloseBtn onClick={closeModal}>&times;</CloseBtn>
           </ModalHeader>
           <ModalMain>
             <p>해당 댓글을 삭제하고 싶으신 경우 댓글 비밀번호를 입력하세요.</p>
             <InputBox placeholder='비밀번호' onChange={handlePassword} value={password} type='password' />
           </ModalMain>
           <ModalFooter>
-            <Button fontSize="12px" bgColor='#BDBDBD' color='#333' fontWeight={500} onClick={handleModal}>취소</Button>
+            <Button fontSize="12px" bgColor='#BDBDBD' color='#333' fontWeight={500} onClick={closeModal}>취소</Button>
             <Button fontSize="12px" bgColor='#333' color='#fff' fontWeight={500} onClick={deleteComment}>삭제</Button>
           </ModalFooter>
         </Modal>
