@@ -20,7 +20,7 @@ const MenuContainer = () => {
       display: flex;
       align-items: center;
       
-      &:not(:first-child):before {
+      &:not(:first-of-type):before {
         content: '';
         display: inline-block;
         width: 1px;
@@ -30,7 +30,15 @@ const MenuContainer = () => {
       }
       
     }
-  `
+    `
+    // &:not(:first-child):before {
+    //   content: '';
+    //   display: inline-block;
+    //   width: 1px;
+    //   height: 20px;
+    //   background-color: #fff;
+    //   margin-right: 40px;
+    // }
   const LinkNav = styled.li<LinkNavProps>`
     a {
       color: ${props => props.isOnPage ? '#514400' : '#AB9000'};
