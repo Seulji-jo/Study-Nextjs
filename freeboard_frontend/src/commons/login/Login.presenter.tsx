@@ -12,7 +12,7 @@ import bgImg from '../../../assets/img/signupBg.png';
 import closeBtn from '../../../assets/img/login_cancel.png';
 import Logo from '../../../assets/img/login_logo.png'
 
-const LoginPresenter:React.FC<Ilogin> = ({isChecked, handleCheckbox}) => {
+const LoginPresenter:React.FC<Ilogin> = ({isChecked, handleCheckbox, handleLogin}) => {
   const schema = yup.object({
     email: yup.string().required('이메일은 필수 입력입니다.'),
     password: yup.string().required('비밀번호는 필수 입력입니다.')
@@ -47,7 +47,7 @@ const LoginPresenter:React.FC<Ilogin> = ({isChecked, handleCheckbox}) => {
           </CheckboxContainer>
           <Text color='#fff' fontSize='14px'>로그인 상태 유지</Text>
         </Label>
-        <Button type='submit' width='100%' radius='8px' bgColor='#4f4f4f' color='#bdbdbd' fontWeight={700} padding='14px'>로그인하기</Button>
+        <Button type='submit' width='100%' radius='8px' bgColor='#4f4f4f' color='#bdbdbd' fontWeight={700} padding='14px' onClick={handleLogin}>로그인하기</Button>
       </Form>
       <SignUpContainer>
         <Link href='/'>이메일 찾기</Link>
